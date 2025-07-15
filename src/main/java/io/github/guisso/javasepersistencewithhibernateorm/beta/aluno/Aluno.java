@@ -52,6 +52,8 @@ public class Aluno
     @Transient
     private Integer idade;
 
+    private Boolean ativo;
+
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public Integer getMatricula() {
         return matricula;
@@ -99,8 +101,16 @@ public class Aluno
     public Integer getIdade() {
         return idade;
     }
-    //</editor-fold>
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="hashCode/equals/toString">
     @Override
     public int hashCode() {
@@ -108,6 +118,7 @@ public class Aluno
         hash = 79 * hash + Objects.hashCode(this.matricula);
         hash = 79 * hash + Objects.hashCode(this.nome);
         hash = 79 * hash + Objects.hashCode(this.nascimento);
+        hash = 79 * hash + Objects.hashCode(this.ativo);
         return hash;
     }
 
@@ -130,6 +141,7 @@ public class Aluno
                 + ", nome=" + nome
                 + ", nascimento=" + nascimento
                 + ", idade=" + idade
+                + ", " + (ativo ? "Ativo" : "Inativo")
                 + '}';
     }
     //</editor-fold>
