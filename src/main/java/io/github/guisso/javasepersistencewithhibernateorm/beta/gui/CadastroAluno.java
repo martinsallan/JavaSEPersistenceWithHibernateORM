@@ -17,10 +17,15 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.gui;
 
 import com.github.lgooddatepicker.components.DatePickerSettings;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.aluno.Aluno;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.aluno.AlunoRepository;
 import java.awt.Font;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -95,6 +100,11 @@ public class CadastroAluno
 
         btnSalvar.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
 
         dtpNascimento.setDate(LocalDate.now());
         dtpNascimento.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -151,6 +161,29 @@ public class CadastroAluno
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        Aluno aux = new Aluno();
+        
+        try {
+            aux.setMatricula(
+                    SecureRandom.getInstanceStrong().nextInt(20250001, 20259999));
+        } catch (NoSuchAlgorithmException ex) {
+            System.getLogger(CadastroAluno.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
+        
+        aux.setNome(txtNome.getText());
+        aux.setNascimento(dtpNascimento.getDate());
+
+        try {
+            new AlunoRepository().saveOrUpdate(aux);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this,
+                    "Falha ao gravar o aluno no banco de dados",
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
      * @param args the command line arguments
