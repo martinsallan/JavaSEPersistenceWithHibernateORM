@@ -46,7 +46,7 @@ public class CadastroAluno
         // DatePicker settings
         DatePickerSettings settings
                 = new DatePickerSettings(Locale.of("pt", "BR"));
-
+        
         // Date format
         settings.setFormatForDatesCommonEra(
                 DateTimeFormatter.ofPattern("dd/MM/yyyy"));
@@ -63,9 +63,12 @@ public class CadastroAluno
         settings.setFontValidDate(defaultFont);
         settings.setFontInvalidDate(defaultFont);
         settings.setFontVetoedDate(defaultFont);
-
+        
         // Applying settings
         dtpNascimento.setSettings(settings);
+        
+        // Date range limits
+        settings.setDateRangeLimits(LocalDate.MIN, LocalDate.now());
     }
 
     /**
