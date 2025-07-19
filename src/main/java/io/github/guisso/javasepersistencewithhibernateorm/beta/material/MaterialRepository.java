@@ -14,12 +14,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package io.github.guisso.javasepersistencewithhibernateorm.beta.material;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
+
 /**
- *
+ * Repository for Material operations
+ * 
  * @author stefo
+ * @since 0.1, Jul 7, 2025
  */
-public class MaterialRepository {
+
+public class MaterialRepository 
+        extends Repository<Material> {
     
+    @Override
+    public String getJpqlFindAll() {
+        return "SELECT m FROM Material m";
+    }
+
+    @Override
+    public String getJpqlFindById() {
+        return "SELECT m FROM Material m WHERE m.id = :id";
+    }
+
+    @Override
+    public String getJpqlDeleteById() {
+        return "DELETE FROM Material m WHERE m.id = :id";
+    }
 }
