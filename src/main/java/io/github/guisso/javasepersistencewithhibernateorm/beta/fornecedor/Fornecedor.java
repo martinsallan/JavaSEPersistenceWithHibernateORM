@@ -16,11 +16,97 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.ProjectEntity;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import java.io.Serializable;
+import java.util.Objects;
+
 /**
  * Fornecedor entity
  * 
  * @author Allan Martins
  */
-public class Fornecedor {
+
+@Entity
+public class Fornecedor 
+        extends ProjectEntity 
+        implements Serializable{
     
+    private static final long serialVersionUID = 1L;
+    
+    @Column(nullable = false, length = 45)
+    private String nome;
+    
+    @Column(nullable = false, length = 11)
+    private String telefone;
+    
+    @Column(nullable = false, length = 120)
+    private String email;
+
+    //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        if (nome == null || nome.isBlank() || nome.length() > 45) {
+            throw new IllegalArgumentException("O nome tem que ser válido e ter até 45 caracteres");
+        }    
+        this.nome = nome;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        if (nome == null || telefone.isBlank() || telefone.length() > 11) {
+            throw new IllegalArgumentException("O telefone tem que ser válido e ter até 11 caracteres");        
+        }
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        if (nome == null || email.isBlank() || email.length() > 120) {
+            throw new IllegalArgumentException("O nome tem que ser válido e ter até 120 caracteres");
+        }    
+        this.email = email;
+    }
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="hashCode/equals/toString">
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.nome);
+        hash = 29 * hash + Objects.hashCode(this.telefone);
+        hash = 29 * hash + Objects.hashCode(this.email);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        return hashCode() == obj.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "Fornecedor{" 
+                + "Nome = " + nome 
+                + ", Telefone = " + telefone 
+                + ", Email = " + email + "}"; 
+    }
+    
+    //</editor-fold>
 }
