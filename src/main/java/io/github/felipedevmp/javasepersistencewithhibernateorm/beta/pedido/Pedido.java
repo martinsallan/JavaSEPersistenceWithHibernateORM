@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PostLoad;
 import jakarta.persistence.Transient;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -29,6 +31,7 @@ public class Pedido
     @Column (length = 520)
     private String listaDeMateriaisUsados;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatusPedido status;
 
