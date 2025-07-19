@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 marti
+ * Copyright (C) 2025 Allan Martins;
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,10 +16,30 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
+
 /**
+ * Repository for Fornecedor operations
  *
- * @author marti
+ * @author Allan Martins;
  */
-public class FornecedorRepository {
-    
+
+public class FornecedorRepository
+        extends Repository<Fornecedor> {
+
+    @Override
+    public String getJpqlFindAll() {
+        return "SELECT a FROM Fornecedor a";
+    }
+
+    @Override
+    public String getJpqlFindById() {
+        return "SELECT a FROM Fornecedor a WHERE a.id = :id";
+    }
+
+    @Override
+    public String getJpqlDeleteById() {
+        return "DELETE FROM Fornecedor a WHERE a.id = :id";
+    }
+
 }

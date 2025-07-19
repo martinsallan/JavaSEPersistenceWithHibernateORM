@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 marti
+ * Copyright (C) 2025 Allan Martins
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,9 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor;
 
 /**
- *
- * @author marti
+ * Fornecedor entity
+ * 
+ * @author Allan Martins
  */
 public class Fornecedor {
     
