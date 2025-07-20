@@ -16,12 +16,15 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta;
 
-import io.github.guisso.javasepersistencewithhibernateorm.beta.aluno.Aluno;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.aluno.AlunoRepository;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.credencial.Credencial;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.credencial.CredencialRepository;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.Usuario;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.UsuarioRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.Fornecedor;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.FornecedorRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.Cliente;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.ClienteRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.PedidoRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido.StatusPedido;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.material.Material;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.material.MaterialRepository;
 import java.time.LocalDate;
 
 /**
@@ -32,60 +35,99 @@ import java.time.LocalDate;
  * @since 0.1, Jul 1, 2025
  */
 public class Program {
+    public static void FornecedorTests() {
+        FornecedorRepository fornecedorRepository = new FornecedorRepository();
+        Long id;
+        
+        Fornecedor c1 = new Fornecedor(); 
+        c1.setNome("Allan Ravide");
+        c1.setTelefone("38999997777");
+        c1.setEmail("martinsallan111@gmail.com");
+        fornecedorRepository.saveOrUpdate(c1);
+        System.out.println(">" + c1);
+        
+        Fornecedor c2 = new Fornecedor();
+        c2.setNome("Noah Delgado");
+        c2.setTelefone("38988886666");
+        c2.setEmail("martinsallan222@gmail.com");
+        fornecedorRepository.saveOrUpdate(c2);
+        System.out.println(">" + c2);
+        
+        c2.setNome("Iago Madureira");
+        fornecedorRepository.saveOrUpdate(c2);        
+    }
+    public static void ClienteTests(){
+        ClienteRepository clienteRepository = new ClienteRepository();
+        Long id;
+        
+        Cliente c1 = new Cliente(); 
+        c1.setNome("Carlos Miguel");
+        c1.setEndereco("Rua Machado de Assiss, Sao Carlos, 1105");
+        c1.setContato("38999997777");
+        clienteRepository.saveOrUpdate(c1);
+        System.out.println(">" + c1);
+        
+        Cliente c2 = new Cliente();
+        c2.setNome("Joao Pedro");
+        c2.setEndereco("Rua Sao Carlos, Miguelito, 1250");
+        c2.setContato("38988886666");
+        clienteRepository.saveOrUpdate(c2);
+        System.out.println(">" + c2);
+        
+        c2.setNome("Noah Carlos");
+        clienteRepository.saveOrUpdate(c2);
+    }
+    public static void PedidoTests(){
+        PedidoRepository pedidoRepository = new PedidoRepository();
+     
+        Pedido novoPedido = new Pedido();
+        novoPedido.setCliente("Empresa de Teste LTDA");
+        novoPedido.setListaDeMateriaisUsados("1x Chapa de MDF, 2x Parafusos, 1L de Tinta");
+        novoPedido.setStatus(StatusPedido.EM_PRODUCAO);
 
-    public static void betaTests() {
-        
-//        AlunoRepository alunoRepository = new AlunoRepository();
-//        Long id;
-//
-//        Aluno a1 = new Aluno();
-//        a1.setNome("Ana Zaira");
-//        a1.setMatricula(123456789);
-//        a1.setNascimento(LocalDate.of(1999, 7, 1));
-//        
-//        alunoRepository.saveOrUpdate(a1);
-//        System.out.println("> " + a1);
-//        
-//        a1.setNome("Beariz Yana");
-//        
-//        id = alunoRepository.saveOrUpdate(a1);
-//        System.out.println("> " + a1);
-//        
-//        Aluno a2 = alunoRepository.findById(id);
-//        System.out.println("> " + a2);
-//        
-//        a2.setId(null);
-//        a2.setNome("Cecília Xerxes");
-//        
-//        alunoRepository.saveOrUpdate(a2);
-//        System.out.println("> " + a2);
-//        
-////        boolean excluded = alunoRepository.delete(id);
-//        boolean excluded = alunoRepository.delete(a2);
-//
-//        System.out.println("> " + (excluded ? "Excluded" : "Exclusion fails..."));
+        Long id = pedidoRepository.saveOrUpdate(novoPedido);
 
-        CredencialRepository credencialRepository = new CredencialRepository();
-        
-        Credencial c1 = new Credencial();
-        c1.setEmail("y@mail.com");
-        c1.setSenha("123456");
-        
-//        credencialRepository.saveOrUpdate(c1);
-//        if(true) return;
-        
-        UsuarioRepository usuarioRepository = new UsuarioRepository();
-        
-        Usuario u1 = new Usuario();
-        u1.setNome("Ana Zaira");
-        
-        u1.setCredencial(c1); // <---------------------------------------------
-        c1.setUsuario(u1); // <---------------------------------------------
-        
-        usuarioRepository.saveOrUpdate(u1);
-        
-        Usuario u2 = usuarioRepository.findById(1L);
-        
-        System.out.println("> " + u2.getCredencial().getEmail());
+        //Salva as alterações
+        pedidoRepository.saveOrUpdate(novoPedido);
+
+
+        //Buscar por ID
+        System.out.println("Teste de Busca por ID");
+        Pedido pedidoDoBanco = pedidoRepository.findById(id);
+        System.out.println("Pedido encontrado no banco de dados:");
+        System.out.println("> " + pedidoDoBanco);
+    }
+    public static void MaterialTests(){
+        MaterialRepository materialRepository = new MaterialRepository();
+
+        Material m1 = new Material();
+        m1.setNome("Parafuso");
+        m1.setTipo("Metal");
+        m1.setQuantidadeEmEstoque(100);
+        m1.setUnidade("un");
+        m1.setNivelMinimo(50);
+        materialRepository.saveOrUpdate(m1);
+        System.out.println(">" + m1);
+
+        Material m2 = new Material();
+        m2.setNome("Madeira MDF");
+        m2.setTipo("Madeira");
+        m2.setQuantidadeEmEstoque(20);
+        m2.setUnidade("m2");
+        m2.setNivelMinimo(25);
+        materialRepository.saveOrUpdate(m2);
+        System.out.println(">" + m2);
+
+        m2.setQuantidadeEmEstoque(30);
+        materialRepository.saveOrUpdate(m2);
+        System.out.println("Atualizado >" + m2);
+
+        // Teste de reposição
+        System.out.println("Material " + m1.getNome() + (m1.precisaReposicao() ? " precisa" : " não precisa") + " de reposição.");
+        System.out.println("Material " + m2.getNome() + (m2.precisaReposicao() ? " precisa" : " não precisa") + " de reposição.");
+
+        // Teste de exclusão (opcional)
+        // boolean excluiu = materialRepository.delete(m1);
+        // System.out.println("> " + (excluiu ? "Excluiu com sucesso" : "Falha na exclusão"));
     }
 }

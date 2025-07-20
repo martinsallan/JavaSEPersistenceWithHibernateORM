@@ -1,4 +1,4 @@
-package io.github.felipedevmp.javasepersistencewithhibernateorm.beta.pedido;
+package io.github.guisso.javasepersistencewithhibernateorm.beta.pedido;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.ProjectEntity;
 import jakarta.persistence.Column;
