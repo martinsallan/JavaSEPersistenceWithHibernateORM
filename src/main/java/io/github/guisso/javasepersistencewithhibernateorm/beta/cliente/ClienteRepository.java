@@ -17,7 +17,11 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.cliente;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.*;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.DataSourceFactory;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import java.util.List;
 
 /**
  * Repository for Cliente operations
@@ -44,4 +48,65 @@ public class ClienteRepository
         return "DELETE FROM Cliente a WHERE a.id = :id";
     }
 
+    // Métodos da lixeira - Implementados no Cliente REPOSITORY
+    // Evitam conflitos e problemas por falta de implementação nas demais entities
+    
+    // SOFT DELETE Manual - troca o boleano de excluido
+    public void softDelete(Long id){
+        try(EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            Cliente c = em.find(Cliente.class, id);
+            if(c != null){
+                c.setExcluido(Boolean.TRUE);
+                em.merge(c);
+            }
+            tx.commit();
+        }
+    }
+    
+    // sobrecarga de método, para softDelete com o objeto já buscado
+    public void sofDelete(Cliente cliente){
+        // uma simples chamada para o código do softDelete(long id)
+        softDelete(cliente.getId());
+    }
+    
+    // RESTORE - similar ao softdelete mas seta o boleano para false
+    public void restore(Long id){
+        try(EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            Cliente c = em.find(Cliente.class, id);
+            if(c != null){
+                c.setExcluido(Boolean.FALSE);
+                em.merge(c);
+            }
+            tx.commit();
+        }
+    }
+    
+    //sobrecarga de método do restore
+    public void restore(Cliente cliente){
+        restore(cliente.getId());
+    }
+    
+    // BUSCA - busca os elementos da lixeira método similar a busca por getJpqlFindById()
+    public List<Cliente> findALLInTrash(){
+        try(EntityManager em = DataSourceFactory.getEntityManager()){
+            // Consulta JPQL que busca clientes marcados excluídos 
+            return em.createQuery("SELECT a FROM Cliente a WHERE a.excluido = true",
+                    Cliente.class).getResultList();
+        }
+    }
+    
+    // HARD DELETE - chama o método original superclasse Repository, deletebyId
+    public void hardDelete(Long id){
+        super.delete(id);
+    }
+    
+    //sobrecarga de método do hardDelete
+    public void hardDelete(Cliente c){
+        hardDelete(c.getId());
+    }
+    
 }
