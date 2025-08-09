@@ -14,8 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.guisso.javasepersistencewithhibernateorm.beta.cliente;
-
+package io.github.guisso.javasepersistencewithhibernateorm.beta.usuario;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.ProjectEntity;
 import jakarta.persistence.Column;
@@ -26,36 +25,47 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 
 /**
- * Cliente entity
+ * Usuario entity
  *
  * @author iagor
  */
 
+
 @Entity
-public class Cliente 
+public class Usuario 
        extends ProjectEntity
        implements  Serializable{
     
     private static final long SerialVersionUID = 1L;
     
+    public enum FuncaoUsuario {
+        ADMIN,
+        OPERADOR
+        // caso seja necessário outras funcoes
+    }
+    
     @Column(nullable = false, length = 45)
     private String nome;
     
-    @Column(nullable = false, length = 120)
-    private String endereco;
+    @Column(nullable = false, unique = true, length = 20)
+    private String login;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 11)
+    private FuncaoUsuario funcao;
     
     @Column(nullable = false, length = 11)
-    private String contato;
+    private String senhaHash;
     
     @Column(nullable = false)
     private Boolean excluido = false;
     
     private Boolean ativo = true;
-    
-//    @Collum(nullable = true)
-//    private List<Pedido> pedidos; 
+   
 
     //<editor-fold defaultstate="collapsed" desc="GettersNSetters">
     
@@ -70,29 +80,6 @@ public class Cliente
         this.nome = nome;
     }
 
-    public String getEndereco() {
-        return endereco;
-    }
-
-    public void setEndereco(String endereco) {
-        if(endereco == null || endereco.isBlank() ||  endereco.length()> 120){
-            throw new IllegalArgumentException("O endereco precisa ser válido e possuir até 100 caracteres");
-        }
-        this.endereco = endereco;
-    }
-
-    public String getContato() {
-        return contato;
-    }
-
-    public void setContato(String contato) {
-        String contatoValido = contato.replaceAll("\\D", "");
-        if(contatoValido == null || contatoValido.isEmpty() || contatoValido.length() != 11){
-            throw new IllegalArgumentException("O telefone de contato deve possuir 11 dígitos válidos somente.");
-        }
-        this.contato = contatoValido;
-    }
-    
     public Boolean getAtivo(){
         return ativo;
     }
@@ -104,6 +91,44 @@ public class Cliente
     public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
     }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        if(login == null || login.trim().isEmpty()){
+            throw new IllegalArgumentException("O login não pode ser nulo ou vazio.");
+        }
+        
+        String loginTratado = login.trim().toLowerCase();
+        
+        if(loginTratado.length() < 3 || loginTratado.length() > 20) {
+            throw new IllegalArgumentException("O login deve ter entre 3 e 20 caracteres.");
+        }
+        
+        if(!loginTratado.matches("[a-z0-9_]+$")){
+            throw new IllegalArgumentException("O login deve conter apenas letras minúsculas, numeros e underscore .");
+        }
+       
+        this.login = loginTratado;
+    }
+
+    public FuncaoUsuario getFuncao() {
+        return funcao;
+    }
+
+    public void setFuncao(FuncaoUsuario funcao) {
+        this.funcao = funcao;
+    }
+
+    public String getSenhaHash() {
+        return senhaHash;
+    }
+
+    public void setSenhaHash(String senhaHash) {
+        this.senhaHash = senhaHash;
+    }
     
     
     
@@ -114,8 +139,6 @@ public class Cliente
     public int hashCode() {
         int hash = 3;
         hash = 29 * hash + Objects.hashCode(this.nome);
-        hash = 29 * hash + Objects.hashCode(this.endereco);
-        hash = 29 * hash + Objects.hashCode(this.contato);
         hash = 29 * hash + Objects.hashCode(this.excluido);
         hash = 29 * hash + Objects.hashCode(this.ativo);
         return hash;
@@ -136,8 +159,7 @@ public class Cliente
     public String toString() {
         return "Cliente{" 
                 + "nome=" + nome 
-                + ", endereco=" + endereco 
-                + ", contato=" + contato 
+                + ", funcao=" + funcao
                 + ", " + (excluido ? "Excluido " : "Valido ") 
                 + ", " + (ativo!=null && ativo ? "Ativo ": "Inativo ") + '}';
     }
@@ -146,3 +168,5 @@ public class Cliente
 
        
 }
+
+
