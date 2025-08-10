@@ -172,7 +172,9 @@ public class UsuarioListagem extends javax.swing.JFrame {
         }
     }
 
-    // 3. Botão Restaurar (da aba lixeira)
+    
+    // METODOS DE DELEÇÃO E RESTAURAÇÂO DA LIXEIRA
+    // Botão Restaurar (da aba lixeira)
     private void btn_RestaurarActionPerformed(java.awt.event.ActionEvent evt) {
         int[] selectedRows = tblLixeira.getSelectedRows();
         if (selectedRows.length == 0) {
@@ -180,7 +182,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
             return;
         }
 
-        // Lógica similar ao delete, mas chamando repository.restore(id)
+        // Lógica similar ao softdelete, mas chamando repository.restore(id)
         for (int row : selectedRows) {
             int modelRow = tblLixeira.convertRowIndexToModel(row);
             Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
@@ -189,7 +191,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
         carregarTabelas();
     }
     
-    // 4. Botão Deletar Permanente (da aba lixeira)
+    // Botão Deletar Permanente (da aba lixeira)
     private void btn_DeletarPermanenteActionPerformed(java.awt.event.ActionEvent evt) {
         int[] selectedRows = tblLixeira.getSelectedRows();
         if (selectedRows.length == 0) {
@@ -197,9 +199,10 @@ public class UsuarioListagem extends javax.swing.JFrame {
             return;
         }
         
-        int resposta = JOptionPane.showConfirmDialog(this, "Esta ação é irreversível! Deseja excluir permanentemente " + selectedRows.length + " usuário(s)?", "Confirmação", JOptionPane.WARNING_MESSAGE);
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir permanentemente " + selectedRows.length + " usuário(s)?", "Confirmação", JOptionPane.WARNING_MESSAGE);
         if (resposta == JOptionPane.YES_OPTION) {
-             // Lógica similar, mas chamando repository.hardDelete(id)
+            
+            // Chama o método repository.hardDelete(id)
             for (int row : selectedRows) {
                 int modelRow = tblLixeira.convertRowIndexToModel(row);
                 Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
