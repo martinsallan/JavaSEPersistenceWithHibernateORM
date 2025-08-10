@@ -69,4 +69,9 @@ public class UsuarioService {
         // se o usuario não existe, autenticação falha
         return false;
     }
+    
+    // método para realizar a criptografia da senha no salvamento/alteração no GUI
+    public String criptografarSenha(String senhaPura){
+        return passwordEncoder.encode(senhaPura);
+    }
 }

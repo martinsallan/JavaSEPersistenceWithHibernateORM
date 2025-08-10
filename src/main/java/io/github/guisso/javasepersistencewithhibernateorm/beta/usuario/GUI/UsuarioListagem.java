@@ -93,8 +93,10 @@ public class UsuarioListagem extends javax.swing.JFrame {
         if (usuario != null) {
             txtNomeLabel.setText(usuario.getNome());
             txtLoginLabel.setText(usuario.getLogin());
+            // adição do cmbFucao para os enum de funcao do usuario
+            cmbFuncao.setSelectedItem(usuario.getFuncao());
             chk_Ativo.setSelected(usuario.getAtivo());
-            // NUNCA mostre a senha ou o hash. Apenas um placeholder.
+            // mostra um placeholder para a senha.
             txtSenhaLabel.setText("••••••••"); 
         }
     }
@@ -107,111 +109,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
         chk_Ativo.setSelected(false);
         tblListagem.clearSelection(); // Remove a seleção da tabela
     }
-    
-    // MÉTODOS REFERENTES A BOTÕES
-    
-    // 1. Botao salvar/alterar (o mesmo botao pode fazer ambos)
-    private void btn_SalvarActionPerformed(java.awt.event.ActionEvent evt) {
-        // Se não há usuário selecionado, é um novo cadastro
-        if (usuarioSelecionado == null) {
-            // Lógica de CADASTRO
-            // Você pode criar um novo método ou chamar o do seu botão "Cadastrar"
-            //btn_CadastrarActionPerformed(evt);
-            return;
-        }
-        
-        // Lógica de ALTERAÇÃO
-        try {
-            // Pega os dados do formulário e atualiza o objeto selecionado
-            usuarioSelecionado.setNome(txtNomeLabel.getText());
-            usuarioSelecionado.setLogin(txtLoginLabel.getText());
-            usuarioSelecionado.setAtivo(chk_Ativo.isSelected());
-            
-            // Se o campo de senha foi alterado, atualiza a senha
-            String novaSenha = new String(txtSenhaLabel.getPassword());
-            if (!novaSenha.equals("••••••••") && !novaSenha.isEmpty()) {
-                // A criptografia acontece no service, é preciso instanciar
-                UsuarioService service = new UsuarioService();
-                // O ideal seria o service ter um método "alterarSenha"
-                // Por simplicidade, vamos criar um novo hash aqui
-                String novoHash = new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode(novaSenha);
-                usuarioSelecionado.setSenhaHash(novoHash);
-            }
-            
-            // Salva as alterações no banco
-            usuarioRepository.saveOrUpdate(usuarioSelecionado);
-            
-            JOptionPane.showMessageDialog(this, "Usuário alterado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            
-            // Limpa o formulário e recarrega a tabela
-            limparFormulario();
-            carregarTabelas();
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao alterar usuário: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-     // 2. Botão Deletar (da aba de ativos) - Manda para a lixeira
-    private void btn_DeletarActionPerformed(java.awt.event.ActionEvent evt) {
-        int[] selectedRows = tblListagem.getSelectedRows();
-        if (selectedRows.length == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para mover para a lixeira.");
-            return;
-        }
-
-        int resposta = JOptionPane.showConfirmDialog(this, "Deseja mover " + selectedRows.length + " usuário(s) para a lixeira?", "Confirmação", JOptionPane.YES_NO_OPTION);
-        if (resposta == JOptionPane.YES_OPTION) {
-            for (int row : selectedRows) {
-                int modelRow = tblListagem.convertRowIndexToModel(row);
-                Long id = regularesTableModel.getUsuarioAt(modelRow).getId();
-                usuarioRepository.softDelete(id);
-            }
-            carregarTabelas(); // Atualiza ambas as tabelas
-            limparFormulario();
-        }
-    }
-
-    
-    // METODOS DE DELEÇÃO E RESTAURAÇÂO DA LIXEIRA
-    // Botão Restaurar (da aba lixeira)
-    private void btn_RestaurarActionPerformed(java.awt.event.ActionEvent evt) {
-        int[] selectedRows = tblLixeira.getSelectedRows();
-        if (selectedRows.length == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para restaurar.");
-            return;
-        }
-
-        // Lógica similar ao softdelete, mas chamando repository.restore(id)
-        for (int row : selectedRows) {
-            int modelRow = tblLixeira.convertRowIndexToModel(row);
-            Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
-            usuarioRepository.restore(id);
-        }
-        carregarTabelas();
-    }
-    
-    // Botão Deletar Permanente (da aba lixeira)
-    private void btn_DeletarPermanenteActionPerformed(java.awt.event.ActionEvent evt) {
-        int[] selectedRows = tblLixeira.getSelectedRows();
-        if (selectedRows.length == 0) {
-            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para excluir permanentemente.");
-            return;
-        }
-        
-        int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir permanentemente " + selectedRows.length + " usuário(s)?", "Confirmação", JOptionPane.WARNING_MESSAGE);
-        if (resposta == JOptionPane.YES_OPTION) {
-            
-            // Chama o método repository.hardDelete(id)
-            for (int row : selectedRows) {
-                int modelRow = tblLixeira.convertRowIndexToModel(row);
-                Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
-                usuarioRepository.hardDelete(id);
-            }
-            carregarTabelas();
-        }
-    }
-    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -250,30 +148,18 @@ public class UsuarioListagem extends javax.swing.JFrame {
 
         lbl_Nome.setText("Nome");
 
-        txtNomeLabel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNomeLabelActionPerformed(evt);
-            }
-        });
-
         lbl_Login.setText("Login");
 
         lbl_Endereco.setText("Senha");
 
-        txtSenhaLabel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSenhaLabelActionPerformed(evt);
-            }
-        });
-
         chk_Ativo.setText("Ativo");
-        chk_Ativo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                chk_AtivoActionPerformed(evt);
-            }
-        });
 
         btn_Salvar.setText("Salvar");
+        btn_Salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_SalvarActionPerformed(evt);
+            }
+        });
 
         btn_Buscar.setText("Buscar");
 
@@ -357,8 +243,18 @@ public class UsuarioListagem extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tblListagem);
 
         btn_Deletar.setText("Deletar");
+        btn_Deletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DeletarActionPerformed(evt);
+            }
+        });
 
         btn_Alterar.setText("Alterar");
+        btn_Alterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_AlterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout Resultados_pnl3Layout = new javax.swing.GroupLayout(Resultados_pnl3);
         Resultados_pnl3.setLayout(Resultados_pnl3Layout);
@@ -403,8 +299,18 @@ public class UsuarioListagem extends javax.swing.JFrame {
         jScrollPane5.setViewportView(tblLixeira);
 
         btn_DeletarPermanente.setText("Deletar");
+        btn_DeletarPermanente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_DeletarPermanenteActionPerformed(evt);
+            }
+        });
 
         btn_Restaurar.setText("Restaurar");
+        btn_Restaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RestaurarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout Lixeira_pnlLayout = new javax.swing.GroupLayout(Lixeira_pnl);
         Lixeira_pnl.setLayout(Lixeira_pnlLayout);
@@ -461,17 +367,138 @@ public class UsuarioListagem extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtNomeLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeLabelActionPerformed
+    // Botão Alterar (da aba de ativos) - Manda os variáveis do usuário para as textbox para alteração
+    private void btn_AlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_AlterarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNomeLabelActionPerformed
+         int selectedRow = tblListagem.getSelectedRow();
 
-    private void txtSenhaLabelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSenhaLabelActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSenhaLabelActionPerformed
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecione um usuário na tabela para alterar.");
+            return;
+        }
 
-    private void chk_AtivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chk_AtivoActionPerformed
+        int modelRow = tblListagem.convertRowIndexToModel(selectedRow);
+
+        // A variável 'usuarioSelecionado' agora é usada principalmente para o modo de edição
+        this.usuarioSelecionado = regularesTableModel.getUsuarioAt(modelRow);
+        
+        // Chama o método para preencher o formulário com os dados do usuário
+        preencherFormulario(usuarioSelecionado);
+        
+        // desabilita o botao de cadastro para evitar conflitos e habilita o de salvar
+        btn_Cadastrar.setEnabled(false);
+        btn_Salvar.setEnabled(true);
+    }//GEN-LAST:event_btn_AlterarActionPerformed
+    
+    // Botão Deletar (da aba de ativos) - Manda para a lixeira
+    private void btn_DeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeletarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_chk_AtivoActionPerformed
+        int[] selectedRows = tblListagem.getSelectedRows();
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para mover para a lixeira.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja mover " + selectedRows.length + " usuário(s) para a lixeira?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if (resposta == JOptionPane.YES_OPTION) {
+            for (int row : selectedRows) {
+                int modelRow = tblListagem.convertRowIndexToModel(row);
+                Long id = regularesTableModel.getUsuarioAt(modelRow).getId();
+                usuarioRepository.softDelete(id);
+            }
+            carregarTabelas(); // Atualiza ambas as tabelas
+            limparFormulario();
+        }
+    }//GEN-LAST:event_btn_DeletarActionPerformed
+
+    // Botão Salvar (GUI fixa) - salva os dados de  
+    private void btn_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SalvarActionPerformed
+        try {
+            Usuario usuarioParaSalvar;
+
+            // Verifica se está em modo de edição ou novo cadastro
+            if (usuarioSelecionado != null) {
+                // edição - reutiliza o obj
+                usuarioParaSalvar = usuarioSelecionado;
+            } else {
+                // cadastro - cria um novo objeto
+                usuarioParaSalvar = new Usuario();
+            }
+
+            // Pega os dados do formulário
+            usuarioParaSalvar.setNome(txtNomeLabel.getText());
+            usuarioParaSalvar.setLogin(txtLoginLabel.getText());
+            usuarioParaSalvar.setAtivo(chk_Ativo.isSelected());
+            // pega o valor selecionado na ComboBox
+            Usuario.FuncaoUsuario funcaoSelecionada = (Usuario.FuncaoUsuario) cmbFuncao.getSelectedItem();
+            usuarioParaSalvar.setFuncao(funcaoSelecionada);
+
+            // apenas atualiza a senha, se uma nova senha for digitada
+            String novaSenha = new String(txtSenhaLabel.getPassword());
+            if (usuarioParaSalvar.getId() == null || (!novaSenha.equals("••••••••") && !novaSenha.isEmpty())) {
+                if (novaSenha.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "O campo de senha é obrigatório para novos usuários.");
+                    return;
+                }
+                UsuarioService service = new UsuarioService();
+                String novoHash = service.criptografarSenha(novaSenha); // método novo para criftografar sem recriar o usuário
+                usuarioParaSalvar.setSenhaHash(novoHash);
+            }
+
+            // Salva as alterações no banco
+            usuarioRepository.saveOrUpdate(usuarioParaSalvar);
+
+            JOptionPane.showMessageDialog(this, "Usuário salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            // Limpa o formulário e recarrega a tabela para mostrar os dados atualizados
+            limparFormulario();
+            carregarTabelas();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar usuário: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+        
+    }//GEN-LAST:event_btn_SalvarActionPerformed
+
+    
+    // MÉTODOS DOS BOTÕES DA LIXEIRA ---------------------------------------------------------------------------
+    // Botão Restaurar (da aba da lixeira) - Restaura um ou mais usuários
+    private void btn_RestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RestaurarActionPerformed
+        int[] selectedRows = tblLixeira.getSelectedRows();
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para restaurar.");
+            return;
+        }
+
+        // Lógica similar ao softdelete, mas chamando repository.restore(id)
+        for (int row : selectedRows) {
+            int modelRow = tblLixeira.convertRowIndexToModel(row);
+            Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
+            usuarioRepository.restore(id);
+        }
+        carregarTabelas();
+    }//GEN-LAST:event_btn_RestaurarActionPerformed
+
+    // Botão Deletar (da aba da lixeira ) - Deleta permanentemente um ou mais usuários
+    private void btn_DeletarPermanenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_DeletarPermanenteActionPerformed
+        int[] selectedRows = tblLixeira.getSelectedRows();
+        if (selectedRows.length == 0) {
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais usuários para excluir permanentemente.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja excluir permanentemente " + selectedRows.length + " usuário(s)?", "Confirmação", JOptionPane.WARNING_MESSAGE);
+        if (resposta == JOptionPane.YES_OPTION) {
+
+            // Chama o método repository.hardDelete(id)
+            for (int row : selectedRows) {
+                int modelRow = tblLixeira.convertRowIndexToModel(row);
+                Long id = lixeiraTableModel.getUsuarioAt(modelRow).getId();
+                usuarioRepository.hardDelete(id);
+            }
+            carregarTabelas();
+        }
+    }//GEN-LAST:event_btn_DeletarPermanenteActionPerformed
 
     /**
      * @param args the command line arguments

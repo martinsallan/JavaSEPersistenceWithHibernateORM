@@ -128,9 +128,6 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNomeLabel">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtNomeLabelActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_Login">
           <Properties>
@@ -145,22 +142,19 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JPasswordField" name="txtSenhaLabel">
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtSenhaLabelActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="chk_Ativo">
           <Properties>
             <Property name="text" type="java.lang.String" value="Ativo"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chk_AtivoActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_Salvar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Salvar"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_SalvarActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="btn_Buscar">
           <Properties>
@@ -263,11 +257,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Deletar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_DeletarActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Alterar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Alterar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_AlterarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
@@ -336,11 +336,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Deletar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_DeletarPermanenteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btn_Restaurar">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Restaurar"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_RestaurarActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>
