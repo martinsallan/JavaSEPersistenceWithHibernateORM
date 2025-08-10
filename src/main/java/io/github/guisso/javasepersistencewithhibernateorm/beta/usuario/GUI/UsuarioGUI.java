@@ -208,6 +208,13 @@ public class UsuarioGUI extends javax.swing.JFrame {
                 // Telaprincipal telaprincipal = new Telaprincipal();
                 // telaprincipal.setvisible(true);
                 // this.dispose(); // fecha a tela de login
+                UsuarioListagem telaListagem = new UsuarioListagem();
+                
+                telaListagem.setVisible(true);
+                
+                this.dispose();
+                
+                
             }else{
                 JOptionPane.showMessageDialog(this,
                         "Login ou senha inválidos.",

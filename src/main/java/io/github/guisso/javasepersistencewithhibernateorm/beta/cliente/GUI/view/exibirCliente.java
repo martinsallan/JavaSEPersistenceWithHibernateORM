@@ -38,7 +38,6 @@ public class exibirCliente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelContainer = new javax.swing.JPanel();
         Cadastro_pnl = new javax.swing.JPanel();
         lbl_Nome = new javax.swing.JLabel();
         jTextField4 = new javax.swing.JTextField();
@@ -49,14 +48,14 @@ public class exibirCliente extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         btn_Salvar = new javax.swing.JButton();
         btn_Buscar = new javax.swing.JButton();
-        btn_Limpar = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         Listagem_pnl = new javax.swing.JPanel();
         Listagem_tbd = new javax.swing.JTabbedPane();
         Resultados_pnl = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        btn_Excluir = new javax.swing.JButton();
-        btn_Restaurar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         Lixeira_pnl = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
@@ -64,17 +63,6 @@ public class exibirCliente extends javax.swing.JFrame {
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        javax.swing.GroupLayout panelContainerLayout = new javax.swing.GroupLayout(panelContainer);
-        panelContainer.setLayout(panelContainerLayout);
-        panelContainerLayout.setHorizontalGroup(
-            panelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        panelContainerLayout.setVerticalGroup(
-            panelContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         lbl_Nome.setText("jLabel1");
 
@@ -94,7 +82,7 @@ public class exibirCliente extends javax.swing.JFrame {
 
         btn_Buscar.setText("jButton2");
 
-        btn_Limpar.setText("jButton7");
+        jButton7.setText("jButton7");
 
         javax.swing.GroupLayout Cadastro_pnlLayout = new javax.swing.GroupLayout(Cadastro_pnl);
         Cadastro_pnl.setLayout(Cadastro_pnlLayout);
@@ -116,7 +104,7 @@ public class exibirCliente extends javax.swing.JFrame {
                             .addComponent(jTextField5)
                             .addGroup(Cadastro_pnlLayout.createSequentialGroup()
                                 .addGap(0, 174, Short.MAX_VALUE)
-                                .addComponent(btn_Limpar)
+                                .addComponent(jButton7)
                                 .addGap(18, 18, 18)
                                 .addComponent(btn_Buscar)
                                 .addGap(18, 18, 18)
@@ -147,7 +135,7 @@ public class exibirCliente extends javax.swing.JFrame {
                 .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_Salvar)
                     .addComponent(btn_Buscar)
-                    .addComponent(btn_Limpar))
+                    .addComponent(jButton7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -164,9 +152,9 @@ public class exibirCliente extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        btn_Excluir.setText("jButton3");
+        jButton3.setText("jButton3");
 
-        btn_Restaurar.setText("jButton4");
+        jButton4.setText("jButton4");
 
         javax.swing.GroupLayout Resultados_pnlLayout = new javax.swing.GroupLayout(Resultados_pnl);
         Resultados_pnl.setLayout(Resultados_pnlLayout);
@@ -178,9 +166,9 @@ public class exibirCliente extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Resultados_pnlLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_Restaurar)
+                        .addComponent(jButton4)
                         .addGap(18, 18, 18)
-                        .addComponent(btn_Excluir)))
+                        .addComponent(jButton3)))
                 .addContainerGap())
         );
         Resultados_pnlLayout.setVerticalGroup(
@@ -190,8 +178,8 @@ public class exibirCliente extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(Resultados_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_Excluir)
-                    .addComponent(btn_Restaurar))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addContainerGap(134, Short.MAX_VALUE))
         );
 
@@ -211,11 +199,6 @@ public class exibirCliente extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable2);
 
         jButton5.setText("jButton3");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
 
         jButton6.setText("jButton4");
 
@@ -272,9 +255,7 @@ public class exibirCliente extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(Cadastro_pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(panelContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(Listagem_pnl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -284,17 +265,12 @@ public class exibirCliente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Listagem_pnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Cadastro_pnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(Cadastro_pnl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -338,12 +314,12 @@ public class exibirCliente extends javax.swing.JFrame {
     private javax.swing.JPanel Lixeira_pnl;
     private javax.swing.JPanel Resultados_pnl;
     private javax.swing.JButton btn_Buscar;
-    private javax.swing.JButton btn_Excluir;
-    private javax.swing.JButton btn_Limpar;
-    private javax.swing.JButton btn_Restaurar;
     private javax.swing.JButton btn_Salvar;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -355,6 +331,5 @@ public class exibirCliente extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_Contato;
     private javax.swing.JLabel lbl_Endereco;
     private javax.swing.JLabel lbl_Nome;
-    private javax.swing.JPanel panelContainer;
     // End of variables declaration//GEN-END:variables
 }
