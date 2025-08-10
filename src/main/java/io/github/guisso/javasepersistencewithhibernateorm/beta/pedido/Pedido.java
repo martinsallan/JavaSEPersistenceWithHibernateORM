@@ -34,6 +34,9 @@ public class Pedido
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private StatusPedido status;
+    
+    @Column(nullable = false)
+    private Boolean ativo = true;
 
     
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
@@ -52,6 +55,10 @@ public class Pedido
     public StatusPedido getStatus() {
         return status;
     }
+    
+    public Boolean getAtivo() {
+        return ativo;
+    }
 
     public void setCliente(String cliente) {
         this.cliente = cliente;
@@ -63,6 +70,10 @@ public class Pedido
 
     public void setStatus(StatusPedido status) {
         this.status = status;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
     //</editor-fold>
 
