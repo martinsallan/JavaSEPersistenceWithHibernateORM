@@ -203,11 +203,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
                         "Login realizado com sucesso!",
                         "Bem-vindo", JOptionPane.INFORMATION_MESSAGE);
                 
-                // AQUI SERÁ A LÓGICA POR TRÁS DA MUDANÇA DE TELA
-                // Ex.:
-                // Telaprincipal telaprincipal = new Telaprincipal();
-                // telaprincipal.setvisible(true);
-                // this.dispose(); // fecha a tela de login
+                // AQUI SERÁ LÓGICA PARA A MUDANÇA DE TELA
                 UsuarioListagem telaListagem = new UsuarioListagem();
                 
                 telaListagem.setVisible(true);

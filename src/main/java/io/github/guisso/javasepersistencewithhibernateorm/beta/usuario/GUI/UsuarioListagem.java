@@ -162,6 +162,11 @@ public class UsuarioListagem extends javax.swing.JFrame {
         });
 
         btn_Buscar.setText("Buscar");
+        btn_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_BuscarActionPerformed(evt);
+            }
+        });
 
         btn_Cadastrar.setText("Cadastrar");
 
@@ -283,7 +288,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
                 .addContainerGap(169, Short.MAX_VALUE))
         );
 
-        Listagem_tbd3.addTab("tab1", Resultados_pnl3);
+        Listagem_tbd3.addTab("Regulares", Resultados_pnl3);
 
         tblLixeira.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -339,7 +344,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
                 .addContainerGap(169, Short.MAX_VALUE))
         );
 
-        Listagem_tbd3.addTab("tab2", Lixeira_pnl);
+        Listagem_tbd3.addTab("Lixeira", Lixeira_pnl);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -499,6 +504,46 @@ public class UsuarioListagem extends javax.swing.JFrame {
             carregarTabelas();
         }
     }//GEN-LAST:event_btn_DeletarPermanenteActionPerformed
+
+    
+    // Botão Buscar (GUI fixa) - busca as instâncias pelo nome OU login OU filtra todos pela funcao
+    private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
+        try {
+            // Pega os valores dos campos do formulário
+            String nomeBusca = txtNomeLabel.getText().trim();
+            String loginBusca = txtLoginLabel.getText().trim();
+            // Pega a funcao selecionada na ComboBox
+            Usuario.FuncaoUsuario funcaoBusca = (Usuario.FuncaoUsuario) cmbFuncao.getSelectedItem();
+
+            List<Usuario> resultados = new ArrayList<>();
+
+            // Decide qual busca realizar com base nos campos preenchidos
+            if (!nomeBusca.isEmpty()) {
+                // Se o campo nome está preenchido, busca por nome
+                resultados = usuarioRepository.findByNome(nomeBusca);
+            } else if (!loginBusca.isEmpty()) {
+                // Se o campo login está preenchido, busca por login
+                Usuario usuarioEncontrado = usuarioRepository.findByLogin(loginBusca);
+                if (usuarioEncontrado != null) {
+                    resultados.add(usuarioEncontrado);
+                }
+            } else {
+                // Se nenhum campo de texto está preenchido, busca pela função selecionada
+                resultados = usuarioRepository.findByFuncao(funcaoBusca);
+            }
+
+            // Atualiza a tabela de ativos com os resultados da busca
+            regularesTableModel.setUsuarios(resultados);
+
+            if (resultados.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Nenhum usuário encontrado.", "Busca", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro durante a busca: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btn_BuscarActionPerformed
 
     /**
      * @param args the command line arguments

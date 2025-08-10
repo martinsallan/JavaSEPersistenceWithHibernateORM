@@ -14,9 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.GUI;
+package io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.GUI;
 
-import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.Usuario;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.Cliente;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
@@ -25,30 +25,29 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author iagor
  */
-public class UsuarioTableModel extends AbstractTableModel{
+public class ClienteTableModel extends AbstractTableModel{
 
-    private List<Usuario> usuarios;
+    private List<Cliente> clientes;
+    private final String[] colunas = {"ID","Nome","Endereço","Contato","Ativo"};
     
-    // define o nome das colunas
-    private final String[]colunas = {"ID", "Nome", "Login","Funcao", "Ativo"};
-    
-    public UsuarioTableModel(){
-        this.usuarios = new ArrayList<>();
+    public ClienteTableModel(){
+        this.clientes = new ArrayList<>();
     }
-    
-    public void setUsuarios(List<Usuario> usuarios){
-        this.usuarios = usuarios;
-        // Notifica a JTable que os dados mudaram, para que ela se redesenhe
+
+    public Cliente getClienteEm(int rowIndex) {
+        return clientes.get(rowIndex);
+    }
+
+    public void setClientes(List<Cliente> clientes) {
+        this.clientes = clientes;
         this.fireTableDataChanged();
     }
     
-    public Usuario getUsuarioAt(int rowIndex){
-        return usuarios.get(rowIndex);
-    }
+    
     
     @Override
     public int getRowCount() {
-        return usuarios.size();
+        return clientes.size();
     }
 
     @Override
@@ -57,18 +56,23 @@ public class UsuarioTableModel extends AbstractTableModel{
     }
 
     @Override
+    public String getColumnName(int column){
+        return colunas[column];
+    }
+    
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Usuario usuario = usuarios.get(rowIndex);
+        Cliente cliente = clientes.get(rowIndex);
         return switch (columnIndex) {
-            case 0 -> usuario.getId();
-            case 1 -> usuario.getNome();
-            case 2 -> usuario.getLogin();
-            case 3 -> usuario.getFuncao();
-            case 4 -> usuario.getAtivo() ? "Sim" : "Nao";
+            case 0 -> cliente.getId();
+            case 1 -> cliente.getNome();
+            case 2 -> cliente.getEndereco();
+            case 3 -> cliente.getContato();
+            case 4 -> cliente.getAtivo() != null && cliente.getAtivo() ? "Sim" : "Não";
             default -> null;
         };
-    
     }
+
     
     
 }

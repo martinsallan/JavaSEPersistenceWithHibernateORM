@@ -110,7 +110,7 @@ public class UsuarioRepository
         hardDelete(u.getId());
     }
     
-    // método para 
+    // método para buscar todos os usuários por login
     public Usuario findByLogin(String login){
         
         try(EntityManager em = DataSourceFactory.getEntityManager()){
@@ -130,4 +130,34 @@ public class UsuarioRepository
         
     }
     
+    // Busca usuarios cujo nome contenha a string nome
+    // retorna uma lista de usuários que correspondem ao nome entrado
+    public List<Usuario> findByNome(String nome){
+        try(EntityManager em = DataSourceFactory.getEntityManager()){
+            // JPQL para busca não discernindo entre maiusculas e minúsculas.
+            String jpql = "SELECT u FROM Usuario u WHERE LOWER(u.nome) LIKE LOWER(:nome)";
+        
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            
+            query.setParameter("nome", "%" + nome + "%");
+            
+            return query.getResultList();
+        }
+    }
+    
+    // Busca todos os usuários que pertencem a uma determinada função
+    // a FuncaoUsuario a ser buscada, o enum
+    // retorna uma lista de usuários com a função especificada
+    public List<Usuario> findByFuncao(Usuario.FuncaoUsuario funcao){
+        try(EntityManager em = DataSourceFactory.getEntityManager()){
+            // JPQL para busca considerando a funcao
+            String jpql = "SELECT u FROM Usuario u WHERE u.funcao = :funcao";
+        
+            TypedQuery<Usuario> query = em.createQuery(jpql, Usuario.class);
+            
+            query.setParameter("funcao", funcao);
+            
+            return query.getResultList();
+        }
+    }
 }

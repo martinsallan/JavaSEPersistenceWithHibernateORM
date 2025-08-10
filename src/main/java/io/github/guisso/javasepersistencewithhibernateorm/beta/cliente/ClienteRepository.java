@@ -109,4 +109,20 @@ public class ClienteRepository
         hardDelete(c.getId());
     }
     
+    public List<Cliente> findAllActive(){
+         try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT a FROM Cliente a WHERE a.excluido = false", Cliente.class)
+                    .getResultList();
+        }
+    }
+    
+    public List<Cliente> findByNome(String nome) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            String jpql = "SELECT a FROM Cliente a WHERE LOWER(a.nome) LIKE LOWER(:nome) AND a.excluido = false";
+            return em.createQuery(jpql, Cliente.class)
+                    .setParameter("nome", "%" + nome + "%")
+                    .getResultList();
+        }
+    }
+    
 }
