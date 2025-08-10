@@ -1,25 +1,54 @@
-/*
- * Copyright (C) 2025 felip
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.gui;
 
-/**
- *
- * @author felip
- */
-public class PedidoTableModel {
-    
+
+import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
+
+public class PedidoTableModel 
+        extends AbstractTableModel {
+
+    private List<Pedido> pedidos;
+    private final String[] colunas = {"ID", "Cliente", "Materiais", "Status", "Ativo"};
+
+    public PedidoTableModel() {
+        this.pedidos = new ArrayList<>();
+    }
+    public Pedido getPedidoEm(int rowIndex) {
+        return pedidos.get(rowIndex);
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
+        this.fireTableDataChanged();
+    }
+
+    @Override
+    public int getRowCount() {
+        return pedidos.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return colunas.length;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return colunas[column];
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Pedido pedido = pedidos.get(rowIndex);
+        return switch (columnIndex) {
+            case 0 -> pedido.getId();
+            case 1 -> pedido.getCliente();
+            case 2 -> pedido.getListaDeMateriaisUsados();
+            case 3 -> pedido.getStatus();
+            case 4 -> pedido.getAtivo() != null && pedido.getAtivo() ? "Sim" : "Não";
+            default -> null;
+        };
+    }
 }

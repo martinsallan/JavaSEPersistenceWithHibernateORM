@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class Compra
         extends ProjectEntity
-        implements Serializable {
+            implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
