@@ -17,7 +17,11 @@
 
 package io.github.guisso.javasepersistencewithhibernateorm.beta.material;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.DataSourceFactory;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import java.util.List;
 
 /**
  * Repository for Material operations
@@ -42,5 +46,66 @@ public class MaterialRepository
     @Override
     public String getJpqlDeleteById() {
         return "DELETE FROM Material m WHERE m.id = :id";
+    }
+    
+    // Métodos de Lixeira
+    
+    // Tenta mover um item para lixeira
+    public void softDelete(Long id) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+
+            Material m = em.find(Material.class, id);
+            if (m != null) {
+                m.setAtivo(false); // Marca como inativo
+                em.merge(m);
+            }
+
+            tx.commit();
+        }
+    }
+    
+    
+    public void softDelete(Material material) {
+        softDelete(material.getId());
+    }
+
+    // Tenta mover um item para fora da lixeira
+    public void restore(Long id) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+
+            Material m = em.find(Material.class, id);
+            if (m != null) {
+                m.setAtivo(true);
+                em.merge(m);
+            }
+
+            tx.commit();
+        }
+    }
+
+    public void restore(Material material) {
+        restore(material.getId());
+    }
+
+    // Retorna todos os itens da lixeira atual
+    public List<Material> findAllInTrash() {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT m FROM Material m WHERE m.ativo = false", Material.class)
+                    .getResultList();
+        }
+    }
+
+    // Deleta permanentemente um item por ID
+    public void hardDelete(Long id) {
+        super.delete(id); 
+    }
+
+    // Deleta permanentemente um item por Material
+    public void hardDelete(Material material) {
+        hardDelete(material.getId());
     }
 }
