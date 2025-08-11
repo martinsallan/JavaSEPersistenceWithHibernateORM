@@ -3,14 +3,11 @@ package io.github.guisso.javasepersistencewithhibernateorm.beta.pedido;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.ProjectEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.Transient;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.Objects;
+import java.time.LocalDate;
 
 @Entity
 public class Pedido 
@@ -37,7 +34,12 @@ public class Pedido
     
     @Column(nullable = false)
     private Boolean ativo = true;
+    
+    @Column(nullable = false)
+    private LocalDate dataCriacao;
 
+    @Column(nullable = false, length = 100)
+    private String usuario;
     
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public static long getSerialVersionUID() {
@@ -59,6 +61,14 @@ public class Pedido
     public Boolean getAtivo() {
         return ativo;
     }
+    
+    public LocalDate getDataCriacao() {
+        return dataCriacao;
+    }
+    
+    public String getUsuario() {
+       return usuario;
+    }
 
     public void setCliente(String cliente) {
         this.cliente = cliente;
@@ -74,6 +84,14 @@ public class Pedido
 
     public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
+    }
+    
+    public void setDataCriacao(LocalDate dataCriacao) {
+       this.dataCriacao = dataCriacao;
+    }
+    
+    public void setUsuario(String usuario) {
+       this.usuario = usuario;
     }
     //</editor-fold>
 
@@ -107,7 +125,9 @@ public class Pedido
     public String toString() {
         return "Pedido{" +
                 "id=" + getId() +
+                ", dataCriacao=" + dataCriacao + // Adicionado
                 ", cliente='" + cliente + '\'' +
+                ", usuario='" + usuario + '\'' + // Adicionado
                 ", listaDeMateriaisUsados='" + listaDeMateriaisUsados + '\'' +
                 ", status=" + status +
                 '}';
