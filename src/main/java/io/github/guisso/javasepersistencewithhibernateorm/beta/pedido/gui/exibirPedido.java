@@ -21,7 +21,7 @@ public class exibirPedido extends javax.swing.JFrame {
         initComponents();
         this.pedidoRepository = new PedidoRepository();
         this.ativosTableModel = new PedidoTableModel();
-        this.tblLixeira.setModel(ativosTableModel);
+        this.tblAtivos.setModel(ativosTableModel);
 
         this.lixeiraTableModel = new PedidoTableModel();
         this.tblLixeira.setModel(lixeiraTableModel);
