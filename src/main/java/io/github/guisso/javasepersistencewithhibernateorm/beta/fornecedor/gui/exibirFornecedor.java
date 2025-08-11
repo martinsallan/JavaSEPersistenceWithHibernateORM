@@ -388,7 +388,20 @@ public class exibirFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarActionPerformed
-        // TODO add your handling code here:
+        int[] selectedRows = tblLixeira.getSelectedRows();
+        if(selectedRows.length == 0){
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais fornecedores para restaurar.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja restaurar " + selectedRows.length + " fornecedor(es)?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resposta == JOptionPane.YES_OPTION){
+            for (int row : selectedRows){
+                Long id = (Long) tblLixeira.getValueAt(row, 0);
+                fornecedorRepository.restore(id);
+            }
+            carregarTabelas();
+        }
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
