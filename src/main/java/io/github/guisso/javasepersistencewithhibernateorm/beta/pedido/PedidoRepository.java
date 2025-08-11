@@ -39,12 +39,6 @@ public class PedidoRepository
             tx.commit();
         }
     }
-
-    /**
-     * Sobrecarga para mover um pedido para a lixeira usando o objeto.
-     *
-     * @param pedido O objeto Pedido a ser movido.
-     */
     public void softDelete(Pedido pedido) {
         softDelete(pedido.getId());
     }
@@ -56,7 +50,7 @@ public class PedidoRepository
 
             Pedido p = em.find(Pedido.class, id);
             if (p != null) {
-                p.setAtivo(true); // Marca como ativo
+                p.setAtivo(true);
                 em.merge(p);
             }
 

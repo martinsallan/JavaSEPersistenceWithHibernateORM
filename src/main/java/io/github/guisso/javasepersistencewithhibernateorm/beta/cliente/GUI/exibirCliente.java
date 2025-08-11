@@ -36,6 +36,7 @@ public class exibirCliente extends javax.swing.JFrame {
     private ClienteTableModel lixeiraTableModel;
     private Cliente clienteSelecionado;
     
+    
     private void inicializarComponentesLogicos() {
         // Inicializa os componentes 
         this.clienteRepository = new ClienteRepository();
