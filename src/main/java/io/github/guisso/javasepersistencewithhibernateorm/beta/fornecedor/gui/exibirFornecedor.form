@@ -46,24 +46,28 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace min="-2" pref="79" max="-2" attributes="0"/>
-                  <Component id="btnSalvar" min="-2" pref="119" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="btnBuscar" min="-2" pref="119" max="-2" attributes="0"/>
-                  <EmptySpace pref="445" max="32767" attributes="0"/>
-              </Group>
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                      <Component id="txtEmail" pref="390" max="32767" attributes="0"/>
-                      <Component id="txtTelefone" alignment="0" max="32767" attributes="0"/>
-                      <Component id="jLabel1" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
-                      <Component id="jLabel2" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
-                      <Component id="jLabel3" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
-                      <Component id="txtNomeFantasia" alignment="0" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="txtEmail" pref="390" max="32767" attributes="0"/>
+                              <Component id="txtTelefone" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jLabel1" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
+                              <Component id="jLabel2" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
+                              <Component id="jLabel3" alignment="0" min="-2" pref="127" max="-2" attributes="0"/>
+                              <Component id="txtNomeFantasia" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="64" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="btnSalvar" min="-2" pref="119" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          <Component id="btnBuscar" min="-2" pref="119" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
                   <Component id="listagem_tbd" min="-2" pref="302" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               </Group>
@@ -73,9 +77,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="listagem_tbd" max="32767" attributes="0"/>
-                      <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="listagem_tbd" pref="458" max="32767" attributes="0"/>
+                          <EmptySpace pref="48" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txtNomeFantasia" min="-2" max="-2" attributes="0"/>
@@ -87,14 +94,14 @@
                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="txtEmail" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace pref="55" max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="btnSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -136,7 +143,7 @@
                               <Component id="btnAlterar" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnDeletar" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="56" max="32767" attributes="0"/>
+                          <EmptySpace pref="179" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -189,7 +196,7 @@
                           <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                           <Component id="btnRestaurar" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="btnExcluir" min="-2" pref="119" max="-2" attributes="0"/>
+                          <Component id="btnExcluirr" min="-2" pref="119" max="-2" attributes="0"/>
                           <EmptySpace pref="21" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -202,9 +209,9 @@
                           <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnRestaurar" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnExcluir" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnExcluirr" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="56" max="32767" attributes="0"/>
+                          <EmptySpace pref="179" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -236,7 +243,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRestaurarActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="btnExcluir">
+                <Component class="javax.swing.JButton" name="btnExcluirr">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Excluir"/>
                   </Properties>

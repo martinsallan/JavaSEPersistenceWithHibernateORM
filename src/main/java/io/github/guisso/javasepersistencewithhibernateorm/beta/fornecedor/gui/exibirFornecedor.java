@@ -16,12 +16,20 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.gui;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.*;
 /**
  *
  * @author marti
  */
 public class exibirFornecedor extends javax.swing.JFrame {
 
+    //<editor-fold defaultstate="collapsed" desc="Atributos de Controle da Tela">
+    private FornecedorRepository fornecedorRepository;
+    private FornecedorTableModel regularesTableModel;
+    private FornecedorTableModel lixeiraTableModel;
+    private Fornecedor fornecedorSelecionado;//Controla o modo edição/novo
+    //</editor-fold>
+    
     /**
      * Creates new form exibirFornecedor
      */
@@ -49,7 +57,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLixeira = new javax.swing.JTable();
         btnRestaurar = new javax.swing.JButton();
-        btnExcluir = new javax.swing.JButton();
+        btnExcluirr = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtNomeFantasia = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -107,7 +115,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
                     .addComponent(btnDeletar))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         listagem_tbd.addTab("Ativos", jPanel1);
@@ -140,7 +148,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnExcluir.setText("Excluir");
+        btnExcluirr.setText("Excluir");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -151,7 +159,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(btnRestaurar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExcluirr, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -162,8 +170,8 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRestaurar)
-                    .addComponent(btnExcluir))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(btnExcluirr))
+                .addContainerGap(179, Short.MAX_VALUE))
         );
 
         listagem_tbd.addTab("Lixeira", jPanel2);
@@ -204,22 +212,24 @@ public class exibirFornecedor extends javax.swing.JFrame {
         Cadastro_pnl.setLayout(Cadastro_pnlLayout);
         Cadastro_pnlLayout.setHorizontalGroup(
             Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Cadastro_pnlLayout.createSequentialGroup()
-                .addGap(79, 79, 79)
-                .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(445, Short.MAX_VALUE))
             .addGroup(Cadastro_pnlLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
-                    .addComponent(txtTelefone, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNomeFantasia, javax.swing.GroupLayout.Alignment.LEADING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Cadastro_pnlLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                            .addComponent(txtTelefone, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtNomeFantasia, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Cadastro_pnlLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(btnBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(127, 127, 127)))
                 .addComponent(listagem_tbd, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -227,8 +237,10 @@ public class exibirFornecedor extends javax.swing.JFrame {
             Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(Cadastro_pnlLayout.createSequentialGroup()
                 .addGap(32, 32, 32)
-                .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(listagem_tbd)
+                .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(Cadastro_pnlLayout.createSequentialGroup()
+                        .addComponent(listagem_tbd, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                        .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(Cadastro_pnlLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -240,12 +252,12 @@ public class exibirFornecedor extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 55, Short.MAX_VALUE)
-                .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnBuscar)
-                    .addComponent(btnSalvar))
-                .addGap(63, 63, 63))
+                        .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnBuscar)
+                            .addComponent(btnSalvar))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -328,7 +340,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDeletar;
-    private javax.swing.JButton btnExcluir;
+    private javax.swing.JButton btnExcluirr;
     private javax.swing.JButton btnRestaurar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
