@@ -392,7 +392,11 @@ public class exibirFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRestaurarActionPerformed
 
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tblFornecedores.getSelectedRow();
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(this, "Selecione um fornecedor na tabela para alterar.");
+            return;
+        }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
