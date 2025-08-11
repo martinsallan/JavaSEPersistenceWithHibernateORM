@@ -15,18 +15,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.compra.gui;
-
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.CompraRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.gui.CompraTableModel;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author felip
  */
 public class exibirCompra extends javax.swing.JPanel {
 
-    /**
-     * Creates new form exibirCompra
-     */
+    private CompraRepository compraRepository;
+    private CompraTableModel ativosTableModel;
+    private CompraTableModel lixeiraTableModel;
+    private Compra compraSelecionado;
+
     public exibirCompra() {
         initComponents();
+        this.compraRepository = new CompraRepository();
+        this.ativosTableModel = new CompraTableModel();
+        this.tblAtivos.setModel(ativosTableModel);
+        this.lixeiraTableModel = new CompraTableModel();
+        this.tblLixeira.setModel(lixeiraTableModel);
+
     }
 
     private void limparFormulario() {
@@ -39,7 +54,16 @@ public class exibirCompra extends javax.swing.JPanel {
 
         tblAtivos.clearSelection();
 
-        this.pedidoSelecionado = null;
+        this.compraSelecionado = null;
+    }
+
+    private void carregarTabelas() {
+
+        List<Compra> ativos = compraRepository.findAllActive();
+        ativosTableModel.setCompras(ativos);
+
+        List<Compra> excluidos = compraRepository.findAllInTrash();
+        lixeiraTableModel.setCompras(excluidos);
     }
 
     @SuppressWarnings("unchecked")
@@ -65,12 +89,12 @@ public class exibirCompra extends javax.swing.JPanel {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblAtivos = new javax.swing.JTable();
         bntDeletar = new javax.swing.JButton();
         bntAlterar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblLixeira = new javax.swing.JTable();
         bntDeletarBanco = new javax.swing.JButton();
         bntRestaurar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
@@ -96,6 +120,11 @@ public class exibirCompra extends javax.swing.JPanel {
         jLabel6.setText("Número da Nota Fiscal");
 
         bntSalvar.setText("Salvar");
+        bntSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntSalvarActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(204, 0, 0));
@@ -163,7 +192,7 @@ public class exibirCompra extends javax.swing.JPanel {
                 .addGap(17, 17, 17))
         );
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblAtivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -174,7 +203,7 @@ public class exibirCompra extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable2);
+        jScrollPane1.setViewportView(tblAtivos);
 
         bntDeletar.setText("Deletar");
 
@@ -209,7 +238,7 @@ public class exibirCompra extends javax.swing.JPanel {
 
         jTabbedPane1.addTab("Ativo", jPanel4);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblLixeira.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -220,7 +249,7 @@ public class exibirCompra extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(tblLixeira);
 
         bntDeletarBanco.setText("Deletar");
 
@@ -325,6 +354,10 @@ public class exibirCompra extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void bntSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSalvarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bntSalvarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bntAlterar;
@@ -349,8 +382,8 @@ public class exibirCompra extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JTable tblAtivos;
+    private javax.swing.JTable tblLixeira;
     private javax.swing.JTextField txtDataCompra;
     private javax.swing.JTextField txtFornecedor;
     private javax.swing.JTextField txtItens;
