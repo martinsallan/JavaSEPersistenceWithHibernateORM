@@ -31,5 +31,6 @@ public class JavaSEPersistenceWithHibernateORM {
         io.github.guisso.javasepersistencewithhibernateorm.beta.Program.ClienteTests();
         io.github.guisso.javasepersistencewithhibernateorm.beta.Program.PedidoTests();
         io.github.guisso.javasepersistencewithhibernateorm.beta.Program.MaterialTests();
+        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.CompraTests();
     }
 }

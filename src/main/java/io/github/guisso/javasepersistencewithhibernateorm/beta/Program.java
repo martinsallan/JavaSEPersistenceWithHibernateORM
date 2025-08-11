@@ -25,6 +25,9 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.PedidoRepo
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido.StatusPedido;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.material.Material;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.material.MaterialRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.CompraRepository;
+
 import java.time.LocalDate;
 
 /**
@@ -129,5 +132,10 @@ public class Program {
         // Teste de exclusão (opcional)
         // boolean excluiu = materialRepository.delete(m1);
         // System.out.println("> " + (excluiu ? "Excluiu com sucesso" : "Falha na exclusão"));
+    }
+    
+    public static void CompraTests(){
+        CompraRepository compra = new CompraRepository();
+        Compra compra1 = new Compra();
     }
 }
