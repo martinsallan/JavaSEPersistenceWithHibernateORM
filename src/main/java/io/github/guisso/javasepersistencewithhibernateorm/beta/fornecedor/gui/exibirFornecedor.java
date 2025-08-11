@@ -118,7 +118,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLixeira = new javax.swing.JTable();
         btnRestaurar = new javax.swing.JButton();
-        btnExcluirr = new javax.swing.JButton();
+        btnExcluir = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         txtNomeFantasia = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -219,7 +219,12 @@ public class exibirFornecedor extends javax.swing.JFrame {
             }
         });
 
-        btnExcluirr.setText("Excluir");
+        btnExcluir.setText("Excluir");
+        btnExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcluirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -230,7 +235,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(20, 20, 20)
                 .addComponent(btnRestaurar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnExcluirr, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnExcluir, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -241,7 +246,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRestaurar)
-                    .addComponent(btnExcluirr))
+                    .addComponent(btnExcluir))
                 .addContainerGap(179, Short.MAX_VALUE))
         );
 
@@ -413,8 +418,39 @@ public class exibirFornecedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        // TODO add your handling code here:
+        int[] selectedRows = tblFornecedores.getSelectedRows();
+        if (selectedRows.length == 0){
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais fornecedores para mover para a lixeira.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Deseja mover " + selectedRows.length + " fornecedor(es) para a lixeira?", "Confirmação", JOptionPane.YES_NO_OPTION);
+        if(resposta == JOptionPane.YES_OPTION){
+            for(int row : selectedRows){
+                Long id = (Long) tblFornecedores.getValueAt(row, 0);//Pega o ID da coluna 0
+                fornecedorRepository.softDelete(id);
+            }
+            carregarTabelas();
+            limparFormulario();
+        }
     }//GEN-LAST:event_btnDeletarActionPerformed
+
+    private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
+        int[] selectedRows = tblLixeira.getSelectedRows();
+        if(selectedRows.length == 0){
+            JOptionPane.showMessageDialog(this, "Selecione um ou mais fornecedores para excluir permanentemente.");
+            return;
+        }
+
+        int resposta = JOptionPane.showConfirmDialog(this, "Esta ação é irreversível!\nDeseja excluir permanentemente " + selectedRows.length + " fornecedor(es)?", "Confirmação de Exclusão", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+        if(resposta == JOptionPane.YES_OPTION){
+            for(int row : selectedRows){
+                Long id = (Long) tblLixeira.getValueAt(row, 0);
+                fornecedorRepository.hardDelete(id);
+            }
+            carregarTabelas();
+        }
+    }//GEN-LAST:event_btnExcluirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -456,7 +492,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
     private javax.swing.JButton btnAlterar;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnDeletar;
-    private javax.swing.JButton btnExcluirr;
+    private javax.swing.JButton btnExcluir;
     private javax.swing.JButton btnRestaurar;
     private javax.swing.JButton btnSalvar;
     private javax.swing.JLabel jLabel1;
