@@ -17,6 +17,7 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.gui;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.*;
+import java.util.List;
 import javax.swing.JOptionPane;
 /**
  *
@@ -339,8 +340,26 @@ public class exibirFornecedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        try {
-            //Lógica chave: se fornecedorSelecionado é nulo, cria um novo. Senão, atualiza o existente.
+        try{
+            String nomeBusca = txtNomeFantasia.getText().trim();
+            if(!nomeBusca.isEmpty()){
+                List<Fornecedor> resultados = fornecedorRepository.findByNome(nomeBusca);
+                regularesTableModel.setFornecedores(resultados);
+                 if (resultados.isEmpty()){
+                    JOptionPane.showMessageDialog(this, "Nenhum fornecedor encontrado com o nome informado.", "Busca", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }else{
+                //Se a busca for vazia, recarrega todos os fornecedores ativos
+                carregarTabelas();
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro durante a busca: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        try{
+            //Se fornecedorSelecionado é nulo, cria um novo.Senão, atualiza o existente.
             Fornecedor fornecedor = (fornecedorSelecionado == null) ? new Fornecedor() : fornecedorSelecionado;
 
             //Pega os dados dos campos de texto e popula o objeto
@@ -349,12 +368,12 @@ public class exibirFornecedor extends javax.swing.JFrame {
             fornecedor.setEmail(txtEmail.getText());
 
             //Validação de campos vazios
-            if (fornecedor.getNome().trim().isEmpty() || fornecedor.getTelefone().trim().isEmpty() || fornecedor.getEmail().trim().isEmpty()) {
+            if(fornecedor.getNome().trim().isEmpty() || fornecedor.getTelefone().trim().isEmpty() || fornecedor.getEmail().trim().isEmpty()){
                 JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
                 return;
             }
 
-            //Salva no banco(o repositório faz o INSERT ou UPDATE)
+            //Salva no banco (o repositório faz o INSERT ou UPDATE)
             fornecedorRepository.saveOrUpdate(fornecedor);
 
             JOptionPane.showMessageDialog(this, "Fornecedor salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
@@ -362,14 +381,10 @@ public class exibirFornecedor extends javax.swing.JFrame {
             limparFormulario();
             carregarTabelas();//Atualiza a tela
 
-        } catch (Exception e) {
+        }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Erro ao salvar fornecedor: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();//Ajuda a depurar erros no console
-        }
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        // TODO add your handling code here:
+        }    
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void btnRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestaurarActionPerformed
