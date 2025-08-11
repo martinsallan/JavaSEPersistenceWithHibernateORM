@@ -36,6 +36,14 @@ public class exibirPedido extends javax.swing.JFrame {
         List<Pedido> excluidos = pedidoRepository.findAllInTrash();
         lixeiraTableModel.setPedidos(excluidos);
     }
+    
+    private void limparFormulario() {
+        txt_usuario.setText("");
+        txt_cliente.setText("");
+        txt_data.setText("");
+        txt_materiais.setText("");
+        buttonGroup1.clearSelection();
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
