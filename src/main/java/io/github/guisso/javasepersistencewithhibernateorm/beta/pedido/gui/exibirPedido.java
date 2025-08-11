@@ -298,7 +298,6 @@ public class exibirPedido extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            // --- COLETA DOS DADOS ---
             String usuario = txt_usuario.getText();
             String cliente = txt_cliente.getText();
             String dataTexto = txt_data.getText();
@@ -312,7 +311,6 @@ public class exibirPedido extends javax.swing.JFrame {
                 statusSelecionado = StatusPedido.CANCELADO;
             }
 
-            // --- VALIDAÇÕES ---
             if (usuario.trim().isEmpty() || cliente.trim().isEmpty() || dataTexto.trim().isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Usuário, Cliente e Data do Pedido são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
                 return;
@@ -330,7 +328,6 @@ public class exibirPedido extends javax.swing.JFrame {
                 return;
             }
 
-            // --- CRIAÇÃO E PERSISTÊNCIA ---
             Pedido novoPedido = new Pedido();
             novoPedido.setUsuario(usuario);
             novoPedido.setCliente(cliente);
@@ -342,8 +339,8 @@ public class exibirPedido extends javax.swing.JFrame {
 
             JOptionPane.showMessageDialog(this, "Pedido incluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
-            // --- ATUALIZAÇÃO AUTOMÁTICA DA TELA ---
-            carregarTabelas(); // Chama o método para recarregar os dados
+            carregarTabelas();
+            limparFormulario();
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Ocorreu um erro ao salvar o pedido: " + e.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
