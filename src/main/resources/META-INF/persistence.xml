@@ -7,6 +7,7 @@
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.Cliente</class>
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido</class> 
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.material.Material</class>
+        <class>io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.Usuario</class>
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra</class>
         
         <properties>

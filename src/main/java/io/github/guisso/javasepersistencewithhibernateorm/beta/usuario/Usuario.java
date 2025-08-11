@@ -55,10 +55,10 @@ public class Usuario
     private String login;
     
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 20)
     private FuncaoUsuario funcao;
     
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 255)
     private String senhaHash;
     
     @Column(nullable = false)

@@ -54,6 +54,11 @@ public class UsuarioListagem extends javax.swing.JFrame {
         this.lixeiraTableModel = new UsuarioTableModel();
         this.tblLixeira.setModel(lixeiraTableModel);
         
+        cmbFuncao.removeAllItems();
+        for (Usuario.FuncaoUsuario funcao : Usuario.FuncaoUsuario.values()){
+            cmbFuncao.addItem(funcao);
+        }
+        
         carregarTabelas();
 
         adicionarListenerSelecaoTabela();
@@ -168,11 +173,9 @@ public class UsuarioListagem extends javax.swing.JFrame {
             }
         });
 
-        btn_Cadastrar.setText("Cadastrar");
+        btn_Cadastrar.setText("NADA");
 
         lbl_Funcao.setText("Funcao");
-
-        cmbFuncao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout Cadastro_pnlLayout = new javax.swing.GroupLayout(Cadastro_pnl);
         Cadastro_pnl.setLayout(Cadastro_pnlLayout);
@@ -582,14 +585,8 @@ public class UsuarioListagem extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Cadastro_pnl;
-    private javax.swing.JPanel Listagem_pnl1;
-    private javax.swing.JPanel Listagem_pnl2;
-    private javax.swing.JTabbedPane Listagem_tbd1;
-    private javax.swing.JTabbedPane Listagem_tbd2;
     private javax.swing.JTabbedPane Listagem_tbd3;
     private javax.swing.JPanel Lixeira_pnl;
-    private javax.swing.JPanel Resultados_pnl1;
-    private javax.swing.JPanel Resultados_pnl2;
     private javax.swing.JPanel Resultados_pnl3;
     private javax.swing.JButton btn_Alterar;
     private javax.swing.JButton btn_Buscar;
@@ -599,17 +596,9 @@ public class UsuarioListagem extends javax.swing.JFrame {
     private javax.swing.JButton btn_Restaurar;
     private javax.swing.JButton btn_Salvar;
     private javax.swing.JCheckBox chk_Ativo;
-    private javax.swing.JComboBox<String> cmbFuncao;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JComboBox<Usuario.FuncaoUsuario> cmbFuncao;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
     private javax.swing.JLabel lbl_Endereco;
     private javax.swing.JLabel lbl_Funcao;
     private javax.swing.JLabel lbl_Login;

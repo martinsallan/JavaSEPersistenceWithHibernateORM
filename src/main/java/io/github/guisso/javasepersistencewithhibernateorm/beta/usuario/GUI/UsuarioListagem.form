@@ -166,7 +166,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btn_Cadastrar">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Cadastrar"/>
+            <Property name="text" type="java.lang.String" value="NADA"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="lbl_Funcao">
@@ -177,16 +177,11 @@
         <Component class="javax.swing.JComboBox" name="cmbFuncao">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Usuario.FuncaoUsuario&gt;"/>
           </AuxValues>
         </Component>
       </SubComponents>

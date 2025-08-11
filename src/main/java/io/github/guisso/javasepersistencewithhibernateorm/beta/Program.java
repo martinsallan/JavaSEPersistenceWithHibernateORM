@@ -20,6 +20,7 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.Fornec
 import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.FornecedorRepository;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.Cliente;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.ClienteRepository;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.GUI.exibirCliente;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.PedidoRepository;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.StatusPedido;
@@ -28,6 +29,8 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.material.Material
 import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.CompraRepository;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.GUI.UsuarioGUI;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.UsuarioRepository;
 import java.time.LocalDate;
 
 /**
@@ -60,26 +63,34 @@ public class Program {
         fornecedorRepository.saveOrUpdate(c2);        
     }
     public static void ClienteTests(){
-        ClienteRepository clienteRepository = new ClienteRepository();
-        Long id;
-        
-        Cliente c1 = new Cliente(); 
-        c1.setNome("Carlos Miguel");
-        c1.setEndereco("Rua Machado de Assiss, Sao Carlos, 1105");
-        c1.setContato("38999997777");
-        clienteRepository.saveOrUpdate(c1);
-        System.out.println(">" + c1);
-        
-        Cliente c2 = new Cliente();
-        c2.setNome("Joao Pedro");
-        c2.setEndereco("Rua Sao Carlos, Miguelito, 1250");
-        c2.setContato("38988886666");
-        clienteRepository.saveOrUpdate(c2);
-        System.out.println(">" + c2);
-        
-        c2.setNome("Noah Carlos");
-        clienteRepository.saveOrUpdate(c2);
+          ClienteRepository clienteRepository = new ClienteRepository();
+          exibirCliente clienteGUI = new exibirCliente();
+//        ClienteRepository clienteRepository = new ClienteRepository();
+//        Long id;
+//        
+//        Cliente c1 = new Cliente(); 
+//        c1.setNome("Carlos Miguel");
+//        c1.setEndereco("Rua Machado de Assiss, Sao Carlos, 1105");
+//        c1.setContato("38999997777");
+//        clienteRepository.saveOrUpdate(c1);
+//        System.out.println(">" + c1);
+//        
+//        Cliente c2 = new Cliente();
+//        c2.setNome("Joao Pedro");
+//        c2.setEndereco("Rua Sao Carlos, Miguelito, 1250");
+//        c2.setContato("38988886666");
+//        clienteRepository.saveOrUpdate(c2);
+//        System.out.println(">" + c2);
+//        
+//        c2.setNome("Noah Carlos");
+//        clienteRepository.saveOrUpdate(c2);
     }
+    
+    public static void UsuarioTests(){
+        UsuarioRepository usuarioRepository = new UsuarioRepository();
+        UsuarioGUI usuarioGUI = new UsuarioGUI();
+    }
+            
     public static void PedidoTests(){
         PedidoRepository pedidoRepository = new PedidoRepository();
      
