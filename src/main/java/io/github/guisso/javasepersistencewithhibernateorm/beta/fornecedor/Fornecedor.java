@@ -76,7 +76,7 @@ public class Fornecedor
 
     public void setEmail(String email) {
         if (nome == null || email.isBlank() || email.length() > 120) {
-            throw new IllegalArgumentException("O nome tem que ser válido e ter até 120 caracteres");
+            throw new IllegalArgumentException("O email tem que ser válido e ter até 120 caracteres");
         }    
         this.email = email;
     }
