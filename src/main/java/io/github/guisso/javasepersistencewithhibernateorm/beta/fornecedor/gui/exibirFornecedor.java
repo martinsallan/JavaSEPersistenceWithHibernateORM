@@ -17,6 +17,7 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.gui;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.*;
+import javax.swing.JOptionPane;
 /**
  *
  * @author marti
@@ -338,7 +339,33 @@ public class exibirFornecedor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
+        try {
+            //Lógica chave: se fornecedorSelecionado é nulo, cria um novo. Senão, atualiza o existente.
+            Fornecedor fornecedor = (fornecedorSelecionado == null) ? new Fornecedor() : fornecedorSelecionado;
+
+            //Pega os dados dos campos de texto e popula o objeto
+            fornecedor.setNome(txtNomeFantasia.getText());
+            fornecedor.setTelefone(txtTelefone.getText());
+            fornecedor.setEmail(txtEmail.getText());
+
+            //Validação de campos vazios
+            if (fornecedor.getNome().trim().isEmpty() || fornecedor.getTelefone().trim().isEmpty() || fornecedor.getEmail().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Todos os campos são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            //Salva no banco(o repositório faz o INSERT ou UPDATE)
+            fornecedorRepository.saveOrUpdate(fornecedor);
+
+            JOptionPane.showMessageDialog(this, "Fornecedor salvo com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            limparFormulario();
+            carregarTabelas();//Atualiza a tela
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar fornecedor: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();//Ajuda a depurar erros no console
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
