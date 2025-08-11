@@ -31,6 +31,8 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.CompraRepo
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.GUI.UsuarioGUI;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.UsuarioRepository;
+
+import io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor.gui.exibirFornecedor;
 import java.time.LocalDate;
 
 /**
@@ -43,24 +45,24 @@ import java.time.LocalDate;
 public class Program {
     public static void FornecedorTests() {
         FornecedorRepository fornecedorRepository = new FornecedorRepository();
-        Long id;
+        exibirFornecedor fornecedorGui = new exibirFornecedor();
+        //Long id;
+        //Fornecedor c1 = new Fornecedor(); 
+        //c1.setNome("Allan Ravide");
+        //c1.setTelefone("38999997777");
+        //c1.setEmail("martinsallan111@gmail.com");
+        //fornecedorRepository.saveOrUpdate(c1);
+        //System.out.println(">" + c1);
         
-        Fornecedor c1 = new Fornecedor(); 
-        c1.setNome("Allan Ravide");
-        c1.setTelefone("38999997777");
-        c1.setEmail("martinsallan111@gmail.com");
-        fornecedorRepository.saveOrUpdate(c1);
-        System.out.println(">" + c1);
+        //Fornecedor c2 = new Fornecedor();
+        //c2.setNome("Noah Delgado");
+        //c2.setTelefone("38988886666");
+        //c2.setEmail("martinsallan222@gmail.com");
+        //fornecedorRepository.saveOrUpdate(c2);
+        //System.out.println(">" + c2);
         
-        Fornecedor c2 = new Fornecedor();
-        c2.setNome("Noah Delgado");
-        c2.setTelefone("38988886666");
-        c2.setEmail("martinsallan222@gmail.com");
-        fornecedorRepository.saveOrUpdate(c2);
-        System.out.println(">" + c2);
-        
-        c2.setNome("Iago Madureira");
-        fornecedorRepository.saveOrUpdate(c2);        
+        //c2.setNome("Iago Madureira");
+        //fornecedorRepository.saveOrUpdate(c2);        
     }
     public static void ClienteTests(){
           ClienteRepository clienteRepository = new ClienteRepository();
