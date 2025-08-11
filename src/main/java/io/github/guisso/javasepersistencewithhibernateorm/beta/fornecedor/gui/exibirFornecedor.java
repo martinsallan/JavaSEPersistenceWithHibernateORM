@@ -343,7 +343,8 @@ public class exibirFornecedor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    //<editor-fold defaultstate="collapsed" desc="Event Handlers">
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         try{
             String nomeBusca = txtNomeFantasia.getText().trim();
@@ -451,7 +452,8 @@ public class exibirFornecedor extends javax.swing.JFrame {
             carregarTabelas();
         }
     }//GEN-LAST:event_btnExcluirActionPerformed
-
+    //</editor-fold>
+    
     /**
      * @param args the command line arguments
      */
@@ -509,6 +511,4 @@ public class exibirFornecedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtNomeFantasia;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
-
-
 }
