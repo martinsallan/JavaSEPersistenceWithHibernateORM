@@ -22,7 +22,7 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.Cliente;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.cliente.ClienteRepository;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.PedidoRepository;
-import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.Pedido.StatusPedido;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.pedido.StatusPedido;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.material.Material;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.material.MaterialRepository;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;

@@ -16,11 +16,6 @@ public class Pedido
     
     private static final long serialVersionUID = 1L;
     
-    public enum StatusPedido {
-        EM_PRODUCAO,
-        FINALIZADO,
-        CANCELADO
-    }
      
     @Column (nullable = false, length = 100)
     private String cliente;
@@ -125,9 +120,9 @@ public class Pedido
     public String toString() {
         return "Pedido{" +
                 "id=" + getId() +
-                ", dataCriacao=" + dataCriacao + // Adicionado
+                ", dataCriacao=" + dataCriacao +
                 ", cliente='" + cliente + '\'' +
-                ", usuario='" + usuario + '\'' + // Adicionado
+                ", usuario='" + usuario + '\'' +
                 ", listaDeMateriaisUsados='" + listaDeMateriaisUsados + '\'' +
                 ", status=" + status +
                 '}';
