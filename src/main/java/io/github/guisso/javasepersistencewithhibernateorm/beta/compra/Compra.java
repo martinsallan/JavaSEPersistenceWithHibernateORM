@@ -35,6 +35,9 @@ public class Compra
     @Column(nullable = false, length = 100)
     private String usuario;
 
+    @Column(nullable = false)
+    private Boolean ativo = true;
+
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -59,7 +62,7 @@ public class Compra
     public void setNumeroNotaFiscal(String numeroNotaFiscal) {
         this.numeroNotaFiscal = numeroNotaFiscal;
     }
-    
+
     public String getItens() {
         return itens;
     }
@@ -94,6 +97,14 @@ public class Compra
 
     public void setUsuario(String usuario) {
         this.usuario = usuario;
+    }
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
     //</editor-fold>
 

@@ -15,8 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.compra.gui;
-
-import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra; // Importe a sua classe Compra
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +25,15 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author felip
  */
-public class CompraTableModel {
-     private List<Compra> compras;
-    private final String[] colunas = {"ID", "Data", "Fornecedor", "Valor Total", "Nota Fiscal", "Usuário", "Ativo"};
+public class CompraTableModel 
+        extends AbstractTableModel{
+    
+    private List<Compra> compras;
+     private final String[] colunas = {"ID", "Data", "Fornecedor", "Valor Total", "Nota Fiscal", "Itens", "Usuário", "Ativo"};
 
     public CompraTableModel() {
         this.compras = new ArrayList<>();
     }
-
 
     public Compra getCompraEm(int rowIndex) {
         return compras.get(rowIndex);
@@ -41,7 +41,7 @@ public class CompraTableModel {
 
     public void setCompras(List<Compra> compras) {
         this.compras = compras;
-      //  this.fireTableDataChanged();
+        this.fireTableDataChanged();
     }
 
     @Override
@@ -71,10 +71,10 @@ public class CompraTableModel {
             case 2 -> compra.getFornecedor();
             case 3 -> String.format("R$ %.2f", compra.getValorTotal());
             case 4 -> compra.getNumeroNotaFiscal();
-            case 5 -> compra.getUsuario();
-            case 6 -> compra.getAtivo() != null && compra.getAtivo() ? "Sim" : "Não";
+            case 5 -> compra.getItens();
+            case 6 -> compra.getUsuario();
+            case 7 -> compra.getAtivo() != null && compra.getAtivo() ? "Sim" : "Não";
             default -> null;
         };
     }
-    
 }
