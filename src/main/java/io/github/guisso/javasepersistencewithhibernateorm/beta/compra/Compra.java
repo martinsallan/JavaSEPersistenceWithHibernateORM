@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 public class Compra
         extends ProjectEntity
-            implements Serializable {
+        implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,6 +20,12 @@ public class Compra
     @Column(nullable = false)
     private Double valorTotal;
 
+    @Column(length = 44)
+    private String numeroNotaFiscal;
+
+    @Column(length = 520)
+    private String itens;
+
     @Column(length = 50)
     private String formaPagamento;
 
@@ -28,7 +34,6 @@ public class Compra
 
     @Column(nullable = false, length = 100)
     private String usuario;
-
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public static long getSerialVersionUID() {
@@ -45,6 +50,22 @@ public class Compra
 
     public Double getValorTotal() {
         return valorTotal;
+    }
+
+    public String getNumeroNotaFiscal() {
+        return numeroNotaFiscal;
+    }
+
+    public void setNumeroNotaFiscal(String numeroNotaFiscal) {
+        this.numeroNotaFiscal = numeroNotaFiscal;
+    }
+    
+    public String getItens() {
+        return itens;
+    }
+
+    public void setItens(String itens) {
+        this.itens = itens;
     }
 
     public void setValorTotal(Double valorTotal) {
@@ -98,21 +119,21 @@ public class Compra
         if (getClass() != obj.getClass()) {
             return false;
         }
-        
+
         // A comparação pelo hashCode já considera os campos mais relevantes
         return hashCode() == obj.hashCode();
     }
 
     @Override
     public String toString() {
-        return "Compra{" +
-                "id=" + getId() +
-                ", dataCompra=" + dataCompra +
-                ", valorTotal=" + valorTotal +
-                ", formaPagamento='" + formaPagamento + '\'' +
-                ", fornecedor='" + fornecedor + '\'' +
-                ", usuario='" + usuario + '\'' +
-                '}';
+        return "Compra{"
+                + "id=" + getId()
+                + ", dataCompra=" + dataCompra
+                + ", valorTotal=" + valorTotal
+                + ", formaPagamento='" + formaPagamento + '\''
+                + ", fornecedor='" + fornecedor + '\''
+                + ", usuario='" + usuario + '\''
+                + '}';
     }
     //</editor-fold>
 }
