@@ -35,8 +35,67 @@ public class exibirFornecedor extends javax.swing.JFrame {
      */
     public exibirFornecedor() {
         initComponents();
+        inicializarComponentesLogicos();
+    }
+    
+    //<editor-fold defaultstate="collapsed" desc="Métodos de Suporte da GUI">
+    private void inicializarComponentesLogicos() {
+        this.fornecedorRepository = new FornecedorRepository();
+
+        this.regularesTableModel = new FornecedorTableModel();
+        this.tblFornecedores.setModel(regularesTableModel);
+
+        this.lixeiraTableModel = new FornecedorTableModel();
+        this.tblLixeira.setModel(lixeiraTableModel);
+
+        carregarTabelas();
+        adicionarListenerSelecaoTabela();
     }
 
+    private void carregarTabelas() {
+        // Busca os dados no repositório e os define nos modelos, que atualizam as tabelas
+        regularesTableModel.setFornecedores(fornecedorRepository.findAllActive());
+        lixeiraTableModel.setFornecedores(fornecedorRepository.findALLInTrash());
+    }
+
+    private void adicionarListenerSelecaoTabela() {
+        // Adiciona um "ouvinte" para o evento de seleção de linha na tabela de regulares
+        tblFornecedores.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && tblFornecedores.getSelectedRow() != -1) {
+                int viewRow = tblFornecedores.getSelectedRow();
+                int modelRow = tblFornecedores.convertRowIndexToModel(viewRow);
+
+                // Armazena o objeto Fornecedor da linha selecionada
+                fornecedorSelecionado = regularesTableModel.getFornecedorEm(modelRow);
+
+                // Preenche o formulário com os dados do objeto
+                preencherFormulario(fornecedorSelecionado);
+            }
+        });
+    }
+
+    private void preencherFormulario(Fornecedor fornecedor) {
+        if (fornecedor != null) {
+            txtNomeFantasia.setText(fornecedor.getNome());
+            txtTelefone.setText(fornecedor.getTelefone());
+            txtEmail.setText(fornecedor.getEmail());
+        }
+    }
+
+    private void limparFormulario() {
+        // Volta para o modo "novo cadastro"
+        fornecedorSelecionado = null;
+
+        // Limpa os campos de texto
+        txtNomeFantasia.setText("");
+        txtTelefone.setText("");
+        txtEmail.setText("");
+
+        // Remove a seleção da tabela
+        tblFornecedores.clearSelection();
+    }
+    //</editor-fold>
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -357,4 +416,6 @@ public class exibirFornecedor extends javax.swing.JFrame {
     private javax.swing.JTextField txtNomeFantasia;
     private javax.swing.JTextField txtTelefone;
     // End of variables declaration//GEN-END:variables
+
+
 }
