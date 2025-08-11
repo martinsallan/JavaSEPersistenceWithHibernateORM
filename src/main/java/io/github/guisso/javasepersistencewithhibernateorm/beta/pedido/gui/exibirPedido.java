@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 public class exibirPedido extends javax.swing.JFrame {
 
@@ -46,9 +47,9 @@ public class exibirPedido extends javax.swing.JFrame {
         em_producao.setSelected(false);
         finalizado.setSelected(false);
         cancelado.setSelected(false);
-        
+
         tblAtivos.clearSelection();
-        
+
         this.pedidoSelecionado = null;
     }
 
@@ -97,8 +98,8 @@ public class exibirPedido extends javax.swing.JFrame {
         finalizado = new javax.swing.JCheckBox();
         cancelado = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
+        lblFormulario = new javax.swing.JLabel();
         btnSalvar = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel8 = new javax.swing.JPanel();
@@ -111,6 +112,7 @@ public class exibirPedido extends javax.swing.JFrame {
         tblLixeira = new javax.swing.JTable();
         btnDeletarBancodeDados = new javax.swing.JToggleButton();
         jToggleButton4 = new javax.swing.JToggleButton();
+        lblAvisos = new javax.swing.JLabel();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -154,6 +156,16 @@ public class exibirPedido extends javax.swing.JFrame {
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
+        lblFormulario.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblFormulario.setForeground(new java.awt.Color(255, 0, 51));
+
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -162,37 +174,45 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(txt_materiais, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(em_producao)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(finalizado)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(cancelado))
-                                    .addComponent(txt_data, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_cliente, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4))))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(171, 171, 171)
                                 .addComponent(jLabel1))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txt_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_materiais)
+                                    .addComponent(txt_data)
+                                    .addComponent(txt_cliente)
+                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel5)
+                                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel4)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addComponent(em_producao)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(finalizado)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(cancelado)))
+                                        .addGap(0, 94, Short.MAX_VALUE))))
+                            .addComponent(lblFormulario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btnSalvar)
+                .addGap(78, 78, 78))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -225,7 +245,11 @@ public class exibirPedido extends javax.swing.JFrame {
                     .addComponent(em_producao)
                     .addComponent(finalizado)
                     .addComponent(cancelado))
-                .addContainerGap(168, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lblFormulario, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSalvar)
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -239,18 +263,9 @@ public class exibirPedido extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        btnSalvar.setText("Salvar");
-        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSalvarActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Buscar");
 
         tblAtivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -300,7 +315,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
                     .addComponent(btnDeletarLixeira))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Ativo", jPanel8);
@@ -348,10 +363,13 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDeletarBancodeDados)
                     .addComponent(jToggleButton4))
-                .addContainerGap(155, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Lixeira", jPanel9);
+
+        lblAvisos.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblAvisos.setForeground(new java.awt.Color(255, 0, 51));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -359,15 +377,19 @@ public class exibirPedido extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblAvisos, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(lblAvisos, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -375,26 +397,19 @@ public class exibirPedido extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(btnSalvar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton2))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSalvar)
-                    .addComponent(jButton2)))
-            .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -402,6 +417,7 @@ public class exibirPedido extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
+            lblFormulario.setText("");
             String usuario = txt_usuario.getText();
             String cliente = txt_cliente.getText();
             String dataTexto = txt_data.getText();
@@ -416,7 +432,15 @@ public class exibirPedido extends javax.swing.JFrame {
             }
 
             if (usuario.trim().isEmpty() || cliente.trim().isEmpty() || dataTexto.trim().isEmpty() || statusSelecionado == null) {
-                JOptionPane.showMessageDialog(this, "Todos os campos, incluindo o Status, são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+                lblFormulario.setText("Todos os campos, incluindo o Status, são obrigatórios.");
+                Timer timer = new Timer(3000, e -> {
+                    lblAvisos.setText("");
+                });
+
+                timer.setRepeats(false);
+
+                timer.start();
+              
                 return;
             }
             LocalDate dataPedido;
@@ -458,31 +482,41 @@ public class exibirPedido extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnSalvarActionPerformed
- 
+
     private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
         int selectedRow = tblAtivos.getSelectedRow();
+        lblAvisos.setText("");
 
         if (selectedRow != -1) {
             int modelRow = tblAtivos.convertRowIndexToModel(selectedRow);
             pedidoSelecionado = ativosTableModel.getPedidoEm(modelRow);
-            
+
             preencherFormulario(pedidoSelecionado);
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor, selecione um pedido na tabela para alterar.",
-                    "Nenhum Pedido Selecionado",
-                    JOptionPane.WARNING_MESSAGE);
+            lblAvisos.setText("Por favor, selecione um pedido na tabela para alterar.");
+            Timer timer = new Timer(3000, e -> {
+                lblAvisos.setText("");
+            });
+
+            timer.setRepeats(false);
+
+            timer.start();
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
     private void btnDeletarLixeiraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarLixeiraActionPerformed
         int selectedRow = tblAtivos.getSelectedRow();
+        lblAvisos.setText("");
 
         if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this,
-                    "Por favor, selecione um pedido na tabela para excluir.",
-                    "Nenhum Pedido Selecionado",
-                    JOptionPane.WARNING_MESSAGE);
+            lblAvisos.setText("Por favor, selecione um pedido na tabela para excluir.");
+            Timer timer = new Timer(3000, e -> {
+                lblAvisos.setText("");
+            });
+
+            timer.setRepeats(false);
+
+            timer.start();
             return;
         }
         int response = JOptionPane.showConfirmDialog(
@@ -510,7 +544,44 @@ public class exibirPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeletarLixeiraActionPerformed
 
     private void btnDeletarBancodeDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarBancodeDadosActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tblLixeira.getSelectedRow();
+
+        lblAvisos.setText("");
+
+        if (selectedRow == -1) {
+            lblAvisos.setText("Por favor, selecione um pedido na lixeira para excluir permanentemente.");
+            Timer timer = new Timer(3000, e -> {
+                lblAvisos.setText("");
+            });
+
+            timer.setRepeats(false);
+
+            timer.start();
+            return;
+        }
+
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "Esta ação é IRREVERSÍVEL e apagará o pedido para sempre.\nTem certeza que deseja continuar?",
+                "Exclusão Permanente",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE); // Ícone de aviso
+
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                int modelRow = tblLixeira.convertRowIndexToModel(selectedRow);
+                Pedido pedidoParaExcluir = lixeiraTableModel.getPedidoEm(modelRow);
+
+                pedidoRepository.hardDelete(pedidoParaExcluir.getId());
+
+                JOptionPane.showMessageDialog(this, "Pedido excluído permanentemente!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                carregarTabelas();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o pedido do banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_btnDeletarBancodeDadosActionPerformed
 
     /**
@@ -538,7 +609,6 @@ public class exibirPedido extends javax.swing.JFrame {
     private javax.swing.JCheckBox cancelado;
     private javax.swing.JCheckBox em_producao;
     private javax.swing.JCheckBox finalizado;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -556,6 +626,8 @@ public class exibirPedido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JToggleButton jToggleButton4;
+    private javax.swing.JLabel lblAvisos;
+    private javax.swing.JLabel lblFormulario;
     private javax.swing.JTable tblAtivos;
     private javax.swing.JTable tblLixeira;
     private javax.swing.JTextField txt_cliente;
