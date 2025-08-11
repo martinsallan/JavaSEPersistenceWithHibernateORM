@@ -17,7 +17,10 @@
 package io.github.guisso.javasepersistencewithhibernateorm.beta.fornecedor;
 
 import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
-
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.DataSourceFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import java.util.List;
 /**
  * Repository for Fornecedor operations
  *
@@ -42,4 +45,70 @@ public class FornecedorRepository
         return "DELETE FROM Fornecedor a WHERE a.id = :id";
     }
 
+    //Métodos da Lixeira
+    public void softDelete(Long id){
+        try(EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            
+            Fornecedor f = em.find(Fornecedor.class, id);
+            if(f != null){
+                f.setExcluido(Boolean.TRUE);
+                em.merge(f);
+            }
+            tx.commit();
+        }
+    }
+    
+    public void softDelete(Fornecedor fornecedor){
+        softDelete(fornecedor.getId());
+    }
+    
+    public void restore(Long id){
+        try(EntityManager em = DataSourceFactory.getEntityManager()) {
+            EntityTransaction tx = em.getTransaction();
+            tx.begin();
+            Fornecedor f = em.find(Fornecedor.class, id);
+            if(f != null){
+                f.setExcluido(Boolean.FALSE);
+                em.merge(f);
+            }
+            tx.commit();
+        }
+    }
+    
+    public void restore(Fornecedor fornecedor){
+        restore(fornecedor.getId());
+    }
+    
+    public List<Fornecedor> findALLInTrash(){
+        try(EntityManager em = DataSourceFactory.getEntityManager()){
+            return em.createQuery("SELECT a FROM Fornecedor a WHERE a.excluido = true",
+                    Fornecedor.class).getResultList();
+        }
+    }
+    
+    public void hardDelete(Long id){
+        super.delete(id);
+    }
+    
+    public void hardDelete(Fornecedor f){
+        hardDelete(f.getId());
+    }
+    
+    public List<Fornecedor> findAllActive(){
+         try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT a FROM Fornecedor a WHERE a.excluido = false", Fornecedor.class)
+                    .getResultList();
+        }
+    }
+    
+    public List<Fornecedor> findByNome(String nome) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            String jpql = "SELECT a FROM Fornecedor a WHERE LOWER(a.nome) LIKE LOWER(:nome) AND a.excluido = false";
+            return em.createQuery(jpql, Fornecedor.class)
+                    .setParameter("nome", "%" + nome + "%")
+                    .getResultList();
+        }
+    }
 }
