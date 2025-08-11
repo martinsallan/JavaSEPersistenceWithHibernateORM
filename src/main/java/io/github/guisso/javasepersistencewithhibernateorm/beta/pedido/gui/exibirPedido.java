@@ -105,11 +105,11 @@ public class exibirPedido extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAtivos = new javax.swing.JTable();
         btnAlterar = new javax.swing.JToggleButton();
-        btnDeletar = new javax.swing.JToggleButton();
+        btnDeletarLixeira = new javax.swing.JToggleButton();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblLixeira = new javax.swing.JTable();
-        jToggleButton3 = new javax.swing.JToggleButton();
+        btnDeletarBancodeDados = new javax.swing.JToggleButton();
         jToggleButton4 = new javax.swing.JToggleButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -272,10 +272,10 @@ public class exibirPedido extends javax.swing.JFrame {
             }
         });
 
-        btnDeletar.setText("Deletar");
-        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+        btnDeletarLixeira.setText("Deletar");
+        btnDeletarLixeira.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDeletarActionPerformed(evt);
+                btnDeletarLixeiraActionPerformed(evt);
             }
         });
 
@@ -287,7 +287,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAlterar)
                 .addGap(18, 18, 18)
-                .addComponent(btnDeletar)
+                .addComponent(btnDeletarLixeira)
                 .addContainerGap())
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
         );
@@ -299,7 +299,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAlterar)
-                    .addComponent(btnDeletar))
+                    .addComponent(btnDeletarLixeira))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
 
@@ -318,7 +318,12 @@ public class exibirPedido extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tblLixeira);
 
-        jToggleButton3.setText("Deletar");
+        btnDeletarBancodeDados.setText("Deletar");
+        btnDeletarBancodeDados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarBancodeDadosActionPerformed(evt);
+            }
+        });
 
         jToggleButton4.setText("Restaurar");
 
@@ -330,7 +335,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addContainerGap(480, Short.MAX_VALUE)
                 .addComponent(jToggleButton4)
                 .addGap(18, 18, 18)
-                .addComponent(jToggleButton3)
+                .addComponent(btnDeletarBancodeDados)
                 .addContainerGap())
             .addComponent(jScrollPane2)
         );
@@ -341,7 +346,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jToggleButton3)
+                    .addComponent(btnDeletarBancodeDados)
                     .addComponent(jToggleButton4))
                 .addContainerGap(155, Short.MAX_VALUE))
         );
@@ -430,6 +435,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 mensagemSucesso = "Pedido alterado com sucesso!";
             } else {
                 pedido = new Pedido();
+                pedido.setAtivo(true);
                 mensagemSucesso = "Pedido incluído com sucesso!";
             }
 
@@ -469,9 +475,43 @@ public class exibirPedido extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
-    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
-        
-    }//GEN-LAST:event_btnDeletarActionPerformed
+    private void btnDeletarLixeiraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarLixeiraActionPerformed
+        int selectedRow = tblAtivos.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor, selecione um pedido na tabela para excluir.",
+                    "Nenhum Pedido Selecionado",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja mover este pedido para a lixeira?",
+                "Confirmar Exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                int modelRow = tblAtivos.convertRowIndexToModel(selectedRow);
+                Pedido pedidoParaExcluir = ativosTableModel.getPedidoEm(modelRow);
+                pedidoRepository.softDelete(pedidoParaExcluir.getId());
+
+                JOptionPane.showMessageDialog(this, "Pedido movido para a lixeira com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                carregarTabelas();
+                limparFormulario();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir o pedido: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnDeletarLixeiraActionPerformed
+
+    private void btnDeletarBancodeDadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarBancodeDadosActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeletarBancodeDadosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -491,7 +531,8 @@ public class exibirPedido extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToggleButton btnAlterar;
-    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JToggleButton btnDeletarBancodeDados;
+    private javax.swing.JToggleButton btnDeletarLixeira;
     private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cancelado;
@@ -514,7 +555,6 @@ public class exibirPedido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JTable tblAtivos;
     private javax.swing.JTable tblLixeira;
