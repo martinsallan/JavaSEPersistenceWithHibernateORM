@@ -16,10 +16,65 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.compra.gui;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author felip
  */
 public class CompraTableModel {
+     private List<Compra> compras;
+    private final String[] colunas = {"ID", "Data", "Fornecedor", "Valor Total", "Nota Fiscal", "Usuário", "Ativo"};
+
+    public CompraTableModel() {
+        this.compras = new ArrayList<>();
+    }
+
+
+    public Compra getCompraEm(int rowIndex) {
+        return compras.get(rowIndex);
+    }
+
+    public void setCompras(List<Compra> compras) {
+        this.compras = compras;
+      //  this.fireTableDataChanged();
+    }
+
+    @Override
+    public int getRowCount() {
+        return compras.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return colunas.length;
+    }
+
+    @Override
+    public String getColumnName(int column) {
+        return colunas[column];
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Compra compra = compras.get(rowIndex);
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        return switch (columnIndex) {
+            case 0 -> compra.getId();
+            case 1 -> compra.getDataCompra() != null ? compra.getDataCompra().format(formatador) : "N/D";
+            case 2 -> compra.getFornecedor();
+            case 3 -> String.format("R$ %.2f", compra.getValorTotal());
+            case 4 -> compra.getNumeroNotaFiscal();
+            case 5 -> compra.getUsuario();
+            case 6 -> compra.getAtivo() != null && compra.getAtivo() ? "Sim" : "Não";
+            default -> null;
+        };
+    }
     
 }
