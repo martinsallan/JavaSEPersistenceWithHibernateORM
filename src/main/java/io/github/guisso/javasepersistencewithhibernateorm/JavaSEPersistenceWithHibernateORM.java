@@ -26,10 +26,14 @@ package io.github.guisso.javasepersistencewithhibernateorm;
 public class JavaSEPersistenceWithHibernateORM {
 
     public static void main(String[] args) {  
-        //Testes
-        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.FornecedorTests();
+//        //Testes
+//        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.FornecedorTests();
+//        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.ClienteTests();
+//        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.PedidoTests();
+//        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.MaterialTests();
+        
         io.github.guisso.javasepersistencewithhibernateorm.beta.Program.ClienteTests();
-        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.PedidoTests();
-        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.MaterialTests();
+        io.github.guisso.javasepersistencewithhibernateorm.beta.Program.UsuarioTests();
+        
     }
 }

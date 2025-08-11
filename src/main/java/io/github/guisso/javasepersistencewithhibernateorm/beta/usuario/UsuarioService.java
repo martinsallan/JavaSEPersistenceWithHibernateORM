@@ -37,7 +37,7 @@ public class UsuarioService {
       Cadastra novo usuario, criptografando a senha
     */
     
-    public void cadastrarUsuario(String nome,String login, String senhaPure) throws Exception{
+    public void cadastrarUsuario(String nome,String login, String senhaPure, Usuario.FuncaoUsuario funcao) throws Exception{
         
         if(usuarioRepository.findByLogin(login)!= null){
             throw new Exception ("O login '" +login+ "' já está em uso.");
@@ -50,6 +50,7 @@ public class UsuarioService {
         Usuario novoUsuario = new Usuario();
         novoUsuario.setNome(nome);
         novoUsuario.setLogin(login);
+        novoUsuario.setFuncao(funcao); // <-------- NOVA ADIÇÃO 
         novoUsuario.setSenhaHash(senhaHash); // salva a senha hash, não a senha pura
         
         usuarioRepository.saveOrUpdate(novoUsuario);

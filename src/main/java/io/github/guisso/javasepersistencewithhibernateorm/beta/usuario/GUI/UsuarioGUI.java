@@ -16,6 +16,7 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.GUI;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.Usuario;
 import io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.UsuarioService;
 import javax.swing.JOptionPane;
 
@@ -30,6 +31,12 @@ public class UsuarioGUI extends javax.swing.JFrame {
      */
     public UsuarioGUI() {
         initComponents();
+        
+        cmbFuncao.removeAllItems();
+        
+        for(Usuario.FuncaoUsuario funcao1 : Usuario.FuncaoUsuario.values()){
+            cmbFuncao.addItem(funcao1);
+        }
         
         // cria um listener genérico que chama o método de atualização
         javax.swing.event.DocumentListener listener = new javax.swing.event.DocumentListener(){
@@ -78,6 +85,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
         bttCadastrar = new javax.swing.JButton();
         lblNome = new javax.swing.JLabel();
         txtNome = new javax.swing.JTextField();
+        cmbFuncao = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -85,12 +93,6 @@ public class UsuarioGUI extends javax.swing.JFrame {
         setResizable(false);
 
         lblLogin.setText("Login");
-
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
-            }
-        });
 
         lblSenha.setText("Senha");
 
@@ -116,19 +118,20 @@ public class UsuarioGUI extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(44, 44, 44)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(cmbFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(bttCadastrar)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblNome)
-                        .addComponent(lblSenha)
-                        .addComponent(lblLogin)
-                        .addComponent(txtLogin)
-                        .addComponent(txtSenha)
-                        .addComponent(txtNome, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblNome, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblLogin, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtLogin, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtSenha, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtNome, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,7 +150,8 @@ public class UsuarioGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(bttCadastrar))
+                    .addComponent(bttCadastrar)
+                    .addComponent(cmbFuncao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -159,16 +163,16 @@ public class UsuarioGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addGap(128, 128, 128)
                 .addComponent(jLabel3)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addGap(32, 32, 32)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
         );
@@ -176,10 +180,6 @@ public class UsuarioGUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String login = txtLogin.getText();
@@ -234,6 +234,8 @@ public class UsuarioGUI extends javax.swing.JFrame {
         String nome = txtNome.getText();
         String login = txtLogin.getText();
         String senha = new String(txtSenha.getPassword());
+        Usuario.FuncaoUsuario funcaoSelecionada = (Usuario.FuncaoUsuario) cmbFuncao.getSelectedItem(); // <---------- ADICAO DA CMBFUNCAO
+        
         
         // validar a entrada
         if(nome.trim().isEmpty() || login.trim().isEmpty() || senha.trim().isEmpty()){
@@ -250,7 +252,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
             UsuarioService usuarioService = new UsuarioService();
             
             // chama o método que contém a lógica de criar o user e criptografar senha
-            usuarioService.cadastrarUsuario(nome, login, senha);
+            usuarioService.cadastrarUsuario(nome, login, senha, funcaoSelecionada);// <------------- HOUVE ALTERACAO NO METODO BASE
             
             // se o método não lançar exceção, o cadastro deu certo
             JOptionPane.showMessageDialog(this,
@@ -275,7 +277,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_bttCadastrarActionPerformed
-
+    
     
     
     /**
@@ -315,6 +317,7 @@ public class UsuarioGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bttCadastrar;
+    private javax.swing.JComboBox<Usuario.FuncaoUsuario> cmbFuncao;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

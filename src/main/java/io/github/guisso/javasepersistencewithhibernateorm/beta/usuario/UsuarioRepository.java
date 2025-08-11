@@ -36,17 +36,17 @@ public class UsuarioRepository
 
     @Override
     public String getJpqlFindAll() {
-        return "SELECT a FROM Cliente a";
+        return "SELECT u FROM Usuario u";
     }
 
     @Override
     public String getJpqlFindById() {
-        return "SELECT a FROM Cliente a WHERE a.id = :id";
+        return "SELECT u FROM Usuario u WHERE u.id = :id";
     }
 
     @Override
     public String getJpqlDeleteById() {
-        return "DELETE FROM Cliente a WHERE a.id = :id";
+        return "DELETE FROM Usuario u WHERE u.id = :id";
     }
 
     // Métodos da lixeira - Implementados no Usuario REPOSITORY
@@ -94,8 +94,8 @@ public class UsuarioRepository
     // BUSCA - busca os elementos da lixeira método similar a busca por getJpqlFindById()
     public List<Usuario> findALLInTrash(){
         try(EntityManager em = DataSourceFactory.getEntityManager()){
-            // Consulta JPQL que busca clientes marcados excluídos 
-            return em.createQuery("SELECT a FROM Cliente a WHERE a.excluido = true",
+            // Consulta JPQL que busca usuario marcados excluídos 
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.excluido = true",
                     Usuario.class).getResultList();
         }
     }
