@@ -81,9 +81,14 @@ public class Fornecedor
         this.email = email;
     }
 
+    public Boolean getExcluido() {
+        return excluido;
+    }
+
     public void setExcluido(Boolean excluido) {
         this.excluido = excluido;
     }
+
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="hashCode/equals/toString">
