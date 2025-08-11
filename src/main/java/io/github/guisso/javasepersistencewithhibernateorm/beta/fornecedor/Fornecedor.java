@@ -43,6 +43,9 @@ public class Fornecedor
     
     @Column(nullable = false, length = 120)
     private String email;
+    
+    @Column(nullable = false)
+    private Boolean excluido = false;
 
     //<editor-fold defaultstate="collapsed" desc="Getters/Setters">
     public String getNome() {
@@ -77,6 +80,10 @@ public class Fornecedor
         }    
         this.email = email;
     }
+
+    public void setExcluido(Boolean excluido) {
+        this.excluido = excluido;
+    }
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="hashCode/equals/toString">
@@ -86,6 +93,7 @@ public class Fornecedor
         hash = 29 * hash + Objects.hashCode(this.nome);
         hash = 29 * hash + Objects.hashCode(this.telefone);
         hash = 29 * hash + Objects.hashCode(this.email);
+        hash = 29 * hash + Objects.hashCode(this.excluido);
         return hash;
     }
 
@@ -105,7 +113,8 @@ public class Fornecedor
         return "Fornecedor{" 
                 + "Nome = " + nome 
                 + ", Telefone = " + telefone 
-                + ", Email = " + email + "}"; 
+                + ", Email = " + email + "}"
+                + ", " + (excluido ? "Excluido " : "Valido "); 
     }
     
     //</editor-fold>
