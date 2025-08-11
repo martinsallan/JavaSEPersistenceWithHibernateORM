@@ -16,6 +16,7 @@ public class exibirPedido extends javax.swing.JFrame {
     private PedidoRepository pedidoRepository;
     private PedidoTableModel ativosTableModel;
     private PedidoTableModel lixeiraTableModel;
+    private Pedido pedidoSelecionado;
 
     public exibirPedido() {
         initComponents();
@@ -36,13 +37,42 @@ public class exibirPedido extends javax.swing.JFrame {
         List<Pedido> excluidos = pedidoRepository.findAllInTrash();
         lixeiraTableModel.setPedidos(excluidos);
     }
-    
+
     private void limparFormulario() {
         txt_usuario.setText("");
         txt_cliente.setText("");
         txt_data.setText("");
         txt_materiais.setText("");
-        buttonGroup1.clearSelection();
+        em_producao.setSelected(false);
+        finalizado.setSelected(false);
+        cancelado.setSelected(false);
+        
+        tblAtivos.clearSelection();
+        
+        this.pedidoSelecionado = null;
+    }
+
+    private void preencherFormulario(Pedido pedido) {
+        if (pedido == null) {
+            limparFormulario();
+            return;
+        }
+
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        txt_usuario.setText(pedido.getUsuario());
+        txt_cliente.setText(pedido.getCliente());
+        txt_data.setText(pedido.getDataCriacao().format(formatador));
+        txt_materiais.setText(pedido.getListaDeMateriaisUsados());
+
+        switch (pedido.getStatus()) {
+            case EM_PRODUCAO ->
+                em_producao.setSelected(true);
+            case FINALIZADO ->
+                finalizado.setSelected(true);
+            case CANCELADO ->
+                cancelado.setSelected(true);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -67,15 +97,20 @@ public class exibirPedido extends javax.swing.JFrame {
         finalizado = new javax.swing.JCheckBox();
         cancelado = new javax.swing.JCheckBox();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        btnSalvar = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
         tblAtivos = new javax.swing.JTable();
-        jScrollPane5 = new javax.swing.JScrollPane();
+        btnAlterar = new javax.swing.JToggleButton();
+        btnDeletar = new javax.swing.JToggleButton();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
         tblLixeira = new javax.swing.JTable();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jToggleButton4 = new javax.swing.JToggleButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -208,10 +243,10 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
-        jButton1.setText("Salvar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSalvarActionPerformed(evt);
             }
         });
 
@@ -228,11 +263,47 @@ public class exibirPedido extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(tblAtivos);
+        jScrollPane1.setViewportView(tblAtivos);
 
-        jScrollPane3.setViewportView(jScrollPane4);
+        btnAlterar.setText("Alterar");
+        btnAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlterarActionPerformed(evt);
+            }
+        });
 
-        jTabbedPane2.addTab("Ativo", jScrollPane3);
+        btnDeletar.setText("Deletar");
+        btnDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+        jPanel8.setLayout(jPanel8Layout);
+        jPanel8Layout.setHorizontalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnAlterar)
+                .addGap(18, 18, 18)
+                .addComponent(btnDeletar)
+                .addContainerGap())
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+        );
+        jPanel8Layout.setVerticalGroup(
+            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel8Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAlterar)
+                    .addComponent(btnDeletar))
+                .addContainerGap(155, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Ativo", jPanel8);
 
         tblLixeira.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -245,25 +316,53 @@ public class exibirPedido extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane5.setViewportView(tblLixeira);
+        jScrollPane2.setViewportView(tblLixeira);
 
-        jTabbedPane2.addTab("Lixeira", jScrollPane5);
+        jToggleButton3.setText("Deletar");
+
+        jToggleButton4.setText("Restaurar");
+
+        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+        jPanel9.setLayout(jPanel9Layout);
+        jPanel9Layout.setHorizontalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap(480, Short.MAX_VALUE)
+                .addComponent(jToggleButton4)
+                .addGap(18, 18, 18)
+                .addComponent(jToggleButton3)
+                .addContainerGap())
+            .addComponent(jScrollPane2)
+        );
+        jPanel9Layout.setVerticalGroup(
+            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel9Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jToggleButton3)
+                    .addComponent(jToggleButton4))
+                .addContainerGap(155, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Lixeira", jPanel9);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(18, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 661, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(122, Short.MAX_VALUE))
+                .addGap(14, 14, 14)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -274,7 +373,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(208, 208, 208)
-                        .addComponent(jButton1)
+                        .addComponent(btnSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2))
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -288,7 +387,7 @@ public class exibirPedido extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(87, 87, 87)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnSalvar)
                     .addComponent(jButton2)))
             .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
@@ -296,7 +395,7 @@ public class exibirPedido extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         try {
             String usuario = txt_usuario.getText();
             String cliente = txt_cliente.getText();
@@ -311,33 +410,38 @@ public class exibirPedido extends javax.swing.JFrame {
                 statusSelecionado = StatusPedido.CANCELADO;
             }
 
-            if (usuario.trim().isEmpty() || cliente.trim().isEmpty() || dataTexto.trim().isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Usuário, Cliente e Data do Pedido são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
+            if (usuario.trim().isEmpty() || cliente.trim().isEmpty() || dataTexto.trim().isEmpty() || statusSelecionado == null) {
+                JOptionPane.showMessageDialog(this, "Todos os campos, incluindo o Status, são obrigatórios.", "Campos Vazios", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            if (statusSelecionado == null) {
-                JOptionPane.showMessageDialog(this, "Por favor, selecione um Status para o pedido.", "Campo Obrigatório", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate dataPedido;
             try {
-                dataPedido = LocalDate.parse(dataTexto, formatador);
+                dataPedido = LocalDate.parse(dataTexto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             } catch (DateTimeParseException e) {
-                JOptionPane.showMessageDialog(this, "Formato de data inválido!\nPor favor, use o formato dd/mm/aaaa.", "Erro de Formato de Data", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Formato de data inválido!\nUse o formato dd/mm/aaaa.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            Pedido novoPedido = new Pedido();
-            novoPedido.setUsuario(usuario);
-            novoPedido.setCliente(cliente);
-            novoPedido.setDataCriacao(dataPedido);
-            novoPedido.setListaDeMateriaisUsados(materiais);
-            novoPedido.setStatus(statusSelecionado);
+            Pedido pedido;
+            String mensagemSucesso;
 
-            pedidoRepository.saveOrUpdate(novoPedido);
+            if (pedidoSelecionado != null && pedidoSelecionado.getId() != null) {
+                pedido = pedidoSelecionado;
+                mensagemSucesso = "Pedido alterado com sucesso!";
+            } else {
+                pedido = new Pedido();
+                mensagemSucesso = "Pedido incluído com sucesso!";
+            }
 
-            JOptionPane.showMessageDialog(this, "Pedido incluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            pedido.setUsuario(usuario);
+            pedido.setCliente(cliente);
+            pedido.setDataCriacao(dataPedido);
+            pedido.setListaDeMateriaisUsados(materiais);
+            pedido.setStatus(statusSelecionado);
+
+            pedidoRepository.saveOrUpdate(pedido);
+
+            JOptionPane.showMessageDialog(this, mensagemSucesso, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             carregarTabelas();
             limparFormulario();
@@ -347,7 +451,27 @@ public class exibirPedido extends javax.swing.JFrame {
             e.printStackTrace();
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnSalvarActionPerformed
+ 
+    private void btnAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlterarActionPerformed
+        int selectedRow = tblAtivos.getSelectedRow();
+
+        if (selectedRow != -1) {
+            int modelRow = tblAtivos.convertRowIndexToModel(selectedRow);
+            pedidoSelecionado = ativosTableModel.getPedidoEm(modelRow);
+            
+            preencherFormulario(pedidoSelecionado);
+        } else {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor, selecione um pedido na tabela para alterar.",
+                    "Nenhum Pedido Selecionado",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnAlterarActionPerformed
+
+    private void btnDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletarActionPerformed
+        
+    }//GEN-LAST:event_btnDeletarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,11 +490,13 @@ public class exibirPedido extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton btnAlterar;
+    private javax.swing.JToggleButton btnDeletar;
+    private javax.swing.JButton btnSalvar;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JCheckBox cancelado;
     private javax.swing.JCheckBox em_producao;
     private javax.swing.JCheckBox finalizado;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -383,10 +509,13 @@ public class exibirPedido extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTabbedPane jTabbedPane2;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton jToggleButton4;
     private javax.swing.JTable tblAtivos;
     private javax.swing.JTable tblLixeira;
     private javax.swing.JTextField txt_cliente;
