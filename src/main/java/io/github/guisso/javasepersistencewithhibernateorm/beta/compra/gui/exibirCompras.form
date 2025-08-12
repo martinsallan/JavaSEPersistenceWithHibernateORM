@@ -74,10 +74,6 @@
                       <Component id="txtDataCompra" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtValorTotal" alignment="0" max="32767" attributes="0"/>
                       <Component id="txtNotaFiscal" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                          <Component id="bntSalvar" min="-2" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel9" alignment="0" min="-2" pref="37" max="-2" attributes="0"/>
@@ -90,6 +86,12 @@
                           <EmptySpace min="0" pref="285" max="32767" attributes="0"/>
                       </Group>
                       <Component id="lbFormulario" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="bntSalvar" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="btnBusca" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -125,7 +127,10 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="lbFormulario" min="-2" pref="25" max="-2" attributes="0"/>
                   <EmptySpace pref="19" max="32767" attributes="0"/>
-                  <Component id="bntSalvar" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="bntSalvar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnBusca" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -187,6 +192,11 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" red="ff" type="rgb"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnBusca">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Busca"/>
           </Properties>
         </Component>
       </SubComponents>

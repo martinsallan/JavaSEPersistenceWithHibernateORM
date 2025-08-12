@@ -6,7 +6,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
 
-
 public class PedidoRepository
         extends Repository<Pedido> {
 
@@ -39,6 +38,7 @@ public class PedidoRepository
             tx.commit();
         }
     }
+
     public void softDelete(Pedido pedido) {
         softDelete(pedido.getId());
     }
@@ -70,7 +70,7 @@ public class PedidoRepository
     }
 
     public void hardDelete(Long id) {
-        super.delete(id); 
+        super.delete(id);
     }
 
     public void hardDelete(Pedido pedido) {
@@ -84,14 +84,14 @@ public class PedidoRepository
         }
     }
 
-    public List<Pedido> findByCliente(String nomeCliente) {
-        String jpql = "SELECT p FROM Pedido p WHERE LOWER(p.cliente) LIKE LOWER(:nomeCliente) AND p.ativo = true";
-
-        try (EntityManager em = DataSourceFactory.getEntityManager()) {
-            return em.createQuery(jpql, Pedido.class)
-                    .setParameter("nomeCliente", "%" + nomeCliente + "%")
-                    .getResultList();
-        }
+public List<Pedido> findByUsuario(String nomeUsuario) {
+    String jpql = "SELECT p FROM Pedido p WHERE LOWER(p.usuario) = LOWER(:nomeUsuario) AND p.ativo = true";
+    
+    try (EntityManager em = DataSourceFactory.getEntityManager()) {
+        return em.createQuery(jpql, Pedido.class)
+                .setParameter("nomeUsuario", nomeUsuario)
+                .getResultList();
     }
+}
 
 }
