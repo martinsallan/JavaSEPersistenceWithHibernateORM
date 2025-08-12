@@ -16,19 +16,56 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.compra.gui;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.compra.CompraRepository;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+
 /**
  *
  * @author felip
  */
 public class exibirCompras extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(exibirCompras.class.getName());
 
-    /**
-     * Creates new form exibirCompras
-     */
+    private CompraRepository compraRepository;
+    private CompraTableModel ativosTableModel;
+    private CompraTableModel lixeiraTableModel;
+    private Compra compraSelecionado;
+
     public exibirCompras() {
         initComponents();
+        this.compraRepository = new CompraRepository();
+        this.ativosTableModel = new CompraTableModel();
+        this.tblAtivos.setModel(ativosTableModel);
+        this.lixeiraTableModel = new CompraTableModel();
+        this.tblLixeira.setModel(lixeiraTableModel);
+        carregarTabelas();
+    }
+
+    private void carregarTabelas() {
+
+        List<Compra> ativos = compraRepository.findAllActive();
+        ativosTableModel.setCompras(ativos);
+
+        List<Compra> excluidos = compraRepository.findAllInTrash();
+        lixeiraTableModel.setCompras(excluidos);
+    }
+
+    private void limparFormulario() {
+        txtUsuario.setText("");
+        txtFornecedor.setText("");
+        txtItens.setText("");
+        txtDataCompra.setText("");
+        txtValorTotal.setText("");
+        txtNotaFiscal.setText("");
+
+        tblAtivos.clearSelection();
+
+        this.compraSelecionado = null;
     }
 
     /**
@@ -59,14 +96,15 @@ public class exibirCompras extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        tblAtivos = new javax.swing.JTable();
+        bntDeletar = new javax.swing.JButton();
+        bntAlterar = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        tblLixeira = new javax.swing.JTable();
+        bntDeletarBanco = new javax.swing.JButton();
+        bntRestaurar = new javax.swing.JButton();
+        lbAviso = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,9 +121,13 @@ public class exibirCompras extends javax.swing.JFrame {
         jLabel12.setText("Número da Nota Fiscal");
 
         bntSalvar.setText("Salvar");
+        bntSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntSalvarActionPerformed(evt);
+            }
+        });
 
         lbFormulario.setForeground(new java.awt.Color(255, 0, 0));
-        lbFormulario.setText("jLabel1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -149,7 +191,7 @@ public class exibirCompras extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAtivos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -160,11 +202,11 @@ public class exibirCompras extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tblAtivos);
 
-        jButton1.setText("Deletar");
+        bntDeletar.setText("Deletar");
 
-        jButton2.setText("Alterar");
+        bntAlterar.setText("Alterar");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -172,29 +214,30 @@ public class exibirCompras extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bntAlterar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bntDeletar)
+                        .addContainerGap())))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(bntDeletar)
+                    .addComponent(bntAlterar))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Ativo", jPanel3);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblLixeira.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -205,11 +248,11 @@ public class exibirCompras extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tblLixeira);
 
-        jButton3.setText("Deletar");
+        bntDeletarBanco.setText("Deletar");
 
-        jButton4.setText("Restaurar");
+        bntRestaurar.setText("Restaurar");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -217,24 +260,25 @@ public class exibirCompras extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
-                .addContainerGap())
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(bntRestaurar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(bntDeletarBanco)
+                        .addContainerGap())))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(45, Short.MAX_VALUE))
+                    .addComponent(bntRestaurar)
+                    .addComponent(bntDeletarBanco))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Lixeira", jPanel4);
@@ -255,27 +299,110 @@ public class exibirCompras extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        lbAviso.setForeground(new java.awt.Color(255, 204, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(128, 128, 128)
+                        .addComponent(lbAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 75, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lbAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void bntSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSalvarActionPerformed
+        try {
+            Timer timer = new Timer(3000, e -> {
+                lbAviso.setText("");
+            });
+
+            String usuario = txtUsuario.getText();
+            String fornecedor = txtFornecedor.getText();
+            String itens = txtItens.getText();
+            String dataTexto = txtDataCompra.getText();
+            String valorTexto = txtValorTotal.getText();
+            String notaFiscal = txtNotaFiscal.getText();
+
+            if (usuario.trim().isEmpty() || fornecedor.trim().isEmpty() || dataTexto.trim().isEmpty() || valorTexto.trim().isEmpty()) {
+                lbFormulario.setText("Usuário, Fornecedor, Data e Valor são obrigatórios.");
+
+                timer.setRepeats(false);
+
+                timer.start();
+
+                return;
+            }
+
+            LocalDate dataCompra;
+            try {
+                dataCompra = LocalDate.parse(dataTexto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                JOptionPane.showMessageDialog(this, "Formato de data inválido!\nPor favor, use o formato dd/mm/aaaa.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            Double valorTotal;
+            try {
+                valorTotal = Double.valueOf(valorTexto.replace(",", "."));
+            } catch (NumberFormatException e) {
+                lbFormulario.setText("Formato de valor inválido!\nUse apenas números (ex: 123.45).");
+
+                timer.setRepeats(false);
+
+                timer.start();
+
+                return;
+
+            }
+
+            if (notaFiscal.length() > 44) {
+                JOptionPane.showMessageDialog(this, "O número da Nota Fiscal não pode ter mais de 44 caracteres.", "Campo Inválido", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            Compra novaCompra = new Compra();
+            novaCompra.setUsuario(usuario);
+            novaCompra.setFornecedor(fornecedor);
+            novaCompra.setItens(itens);
+            novaCompra.setDataCompra(dataCompra);
+            novaCompra.setValorTotal(valorTotal);
+            novaCompra.setNumeroNotaFiscal(notaFiscal);
+            novaCompra.setAtivo(true);
+
+            compraRepository.saveOrUpdate(novaCompra);
+
+            JOptionPane.showMessageDialog(this, "Compra salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+            carregarTabelas();
+            limparFormulario();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Ocorreu um erro ao salvar a compra: " + e.getMessage(), "Erro Inesperado", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_bntSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -286,28 +413,19 @@ public class exibirCompras extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new exibirCompras().setVisible(true));
     }
 
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bntAlterar;
+    private javax.swing.JButton bntDeletar;
+    private javax.swing.JButton bntDeletarBanco;
+    private javax.swing.JButton bntRestaurar;
     private javax.swing.JButton bntSalvar;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -321,9 +439,10 @@ public class exibirCompras extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JLabel lbAviso;
     private javax.swing.JLabel lbFormulario;
+    private javax.swing.JTable tblAtivos;
+    private javax.swing.JTable tblLixeira;
     private javax.swing.JTextField txtDataCompra;
     private javax.swing.JTextField txtFornecedor;
     private javax.swing.JTextField txtItens;
