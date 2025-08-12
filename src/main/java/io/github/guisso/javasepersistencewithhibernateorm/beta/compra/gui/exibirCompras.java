@@ -131,6 +131,8 @@ public class exibirCompras extends javax.swing.JFrame {
         bntDeletarBanco = new javax.swing.JButton();
         bntRestaurar = new javax.swing.JButton();
         lbAviso = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -347,6 +349,26 @@ public class exibirCompras extends javax.swing.JFrame {
 
         lbAviso.setForeground(new java.awt.Color(255, 204, 0));
 
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setText("PAINEL DE COMPRA");
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(337, 337, 337))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -362,11 +384,14 @@ public class exibirCompras extends javax.swing.JFrame {
                         .addGap(128, 128, 128)
                         .addComponent(lbAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 312, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 75, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(lbAviso, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -495,11 +520,69 @@ public class exibirCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_bntDeletarActionPerformed
 
     private void bntRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntRestaurarActionPerformed
-        // TODO add your handling code here:
+       int selectedRow = tblLixeira.getSelectedRow();
+
+        if (selectedRow == -1) {
+            exibirAvisoTemporario("Por favor, selecione uma compra na lixeira para restaurar.", lbAviso);
+            return;
+        }
+
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "Deseja restaurar esta compra da lixeira?",
+                "Confirmar Restauração",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                int modelRow = tblLixeira.convertRowIndexToModel(selectedRow);
+                Compra compraParaRestaurar = lixeiraTableModel.getCompraEm(modelRow);
+
+                compraRepository.restore(compraParaRestaurar.getId());
+
+                JOptionPane.showMessageDialog(this, "Compra restaurada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                carregarTabelas();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao restaurar a compra: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_bntRestaurarActionPerformed
 
     private void bntDeletarBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntDeletarBancoActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = tblLixeira.getSelectedRow();
+
+        if (selectedRow == -1) {
+            exibirAvisoTemporario("Por favor, selecione uma compra na lixeira para excluir permanentemente.", lbAviso);
+            return;
+        }
+
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "Esta ação é IRREVERSÍVEL e apagará a compra para sempre.\nTem certeza que deseja continuar?",
+                "Exclusão Permanente",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                int modelRow = tblLixeira.convertRowIndexToModel(selectedRow);
+                Compra compraParaExcluir = lixeiraTableModel.getCompraEm(modelRow);
+
+                compraRepository.hardDelete(compraParaExcluir.getId());
+
+                JOptionPane.showMessageDialog(this, "Compra excluída permanentemente!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                carregarTabelas();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir a compra do banco de dados: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
     }//GEN-LAST:event_bntDeletarBancoActionPerformed
 
     /**
@@ -524,6 +607,7 @@ public class exibirCompras extends javax.swing.JFrame {
     private javax.swing.JButton bntDeletarBanco;
     private javax.swing.JButton bntRestaurar;
     private javax.swing.JButton bntSalvar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -534,6 +618,7 @@ public class exibirCompras extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
