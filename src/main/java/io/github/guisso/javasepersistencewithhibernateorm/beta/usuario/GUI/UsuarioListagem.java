@@ -68,7 +68,7 @@ public class UsuarioListagem extends javax.swing.JFrame {
 
     private void carregarTabelas(){
         // busca os dados e atualiza as tabelas
-        regularesTableModel.setUsuarios(usuarioRepository.findAll());
+        regularesTableModel.setUsuarios(usuarioRepository.findAllActive());
         lixeiraTableModel.setUsuarios(usuarioRepository.findALLInTrash());
         
     }
