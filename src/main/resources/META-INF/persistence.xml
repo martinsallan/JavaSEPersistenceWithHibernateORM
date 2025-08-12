@@ -10,6 +10,7 @@
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.usuario.Usuario</class>
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.compra.Compra</class>
         <class>io.github.guisso.javasepersistencewithhibernateorm.beta.endereco.Endereco</class>
+        <class>io.github.guisso.javasepersistencewithhibernateorm.beta.categoria.Categoria</class>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/estoqueprototipe?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;connectTimeout=5000&amp;socketTimeout=10000&amp;useSSL=false&amp;serverTimezone=America/Fortaleza&amp;useUnicode=true&amp;characterEncoding=UTF-8"/>
             <property name="jakarta.persistence.jdbc.user" value="root"/>
