@@ -160,6 +160,11 @@ public class exibirCompras extends javax.swing.JFrame {
         lbFormulario.setForeground(new java.awt.Color(255, 0, 0));
 
         btnBusca.setText("Busca");
+        btnBusca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -446,8 +451,8 @@ public class exibirCompras extends javax.swing.JFrame {
             if (!notaFiscal.trim().isEmpty()) {
                 Optional<Compra> compraExistente = compraRepository.findByNotaFiscal(notaFiscal);
 
-                if (compraExistente.isPresent() &&
-                   (compraSelecionado == null || !compraExistente.get().getId().equals(compraSelecionado.getId()))) {
+                if (compraExistente.isPresent()
+                        && (compraSelecionado == null || !compraExistente.get().getId().equals(compraSelecionado.getId()))) {
                     exibirAvisoTemporario("Já existe uma compra com este número de Nota Fiscal.", lbFormulario);
                     return;
                 }
@@ -533,7 +538,7 @@ public class exibirCompras extends javax.swing.JFrame {
     }//GEN-LAST:event_bntDeletarActionPerformed
 
     private void bntRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntRestaurarActionPerformed
-       int selectedRow = tblLixeira.getSelectedRow();
+        int selectedRow = tblLixeira.getSelectedRow();
 
         if (selectedRow == -1) {
             exibirAvisoTemporario("Por favor, selecione uma compra na lixeira para restaurar.", lbAviso);
@@ -597,6 +602,24 @@ public class exibirCompras extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_bntDeletarBancoActionPerformed
+
+    private void btnBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscaActionPerformed
+        String nomeUsuarioBusca = txtUsuario.getText().trim();
+
+        if (!nomeUsuarioBusca.isEmpty()) {
+            try {
+                List<Compra> resultados = compraRepository.findByUsuario(nomeUsuarioBusca);
+
+                ativosTableModel.setCompras(resultados);
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao buscar as compras: " + e.getMessage(), "Erro de Busca", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        } else {
+            carregarTabelas();
+        }
+    }//GEN-LAST:event_btnBuscaActionPerformed
 
     /**
      * @param args the command line arguments
