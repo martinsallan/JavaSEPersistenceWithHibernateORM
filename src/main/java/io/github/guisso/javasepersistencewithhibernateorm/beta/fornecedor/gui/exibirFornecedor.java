@@ -314,7 +314,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Cadastro_pnlLayout.createSequentialGroup()
-                        .addComponent(listagem_tbd, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+                        .addComponent(listagem_tbd)
                         .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(Cadastro_pnlLayout.createSequentialGroup()
                         .addComponent(jLabel1)
