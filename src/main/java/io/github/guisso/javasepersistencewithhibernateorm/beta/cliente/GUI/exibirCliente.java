@@ -363,7 +363,7 @@ public class exibirCliente extends javax.swing.JFrame {
     private void btn_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_BuscarActionPerformed
         String nomeBusca = txt_Nome.getText().trim();
         if (!nomeBusca.isEmpty()) {
-            List<Cliente> resultados = clienteRepository.findByNome(nomeBusca); // Você precisará criar este método
+            List<Cliente> resultados = clienteRepository.findByNome(nomeBusca); 
             regularesTableModel.setClientes(resultados);
         } else {
             JOptionPane.showMessageDialog(this, "Digite um nome para buscar.");
