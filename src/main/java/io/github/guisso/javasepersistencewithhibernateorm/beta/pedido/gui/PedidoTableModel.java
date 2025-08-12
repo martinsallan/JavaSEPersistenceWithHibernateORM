@@ -9,7 +9,7 @@ public class PedidoTableModel
         extends AbstractTableModel {
 
     private List<Pedido> pedidos;
-    private final String[] colunas = {"ID", "Data Criação", "Cliente", "Usuário", "Status", "Ativo"};
+    private final String[] colunas = {"ID", "Data Criação", "Cliente", "Usuário", "Status","Materiais Usados", "Ativo"};
 
     public PedidoTableModel() {
         this.pedidos = new ArrayList<>();
@@ -50,10 +50,12 @@ public class PedidoTableModel
             case 2 ->
                 pedido.getCliente();
             case 3 ->
-                pedido.getUsuario(); 
+                pedido.getUsuario();
             case 4 ->
                 pedido.getStatus();
             case 5 ->
+                pedido.getListaDeMateriaisUsados();
+            case 6 ->
                 pedido.getAtivo() != null && pedido.getAtivo() ? "Sim" : "Não";
             default ->
                 null;

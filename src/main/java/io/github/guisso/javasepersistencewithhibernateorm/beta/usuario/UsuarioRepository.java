@@ -91,6 +91,13 @@ public class UsuarioRepository
         restore(usuario.getId());
     }
     
+    public List <Usuario> findAllActive(){
+        try (EntityManager em = DataSourceFactory.getEntityManager()){
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.excluido = false", 
+                    Usuario.class).getResultList();
+        }
+    }
+    
     // BUSCA - busca os elementos da lixeira método similar a busca por getJpqlFindById()
     public List<Usuario> findALLInTrash(){
         try(EntityManager em = DataSourceFactory.getEntityManager()){
