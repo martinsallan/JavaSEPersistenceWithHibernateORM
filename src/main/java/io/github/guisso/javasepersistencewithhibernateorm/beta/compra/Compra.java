@@ -130,7 +130,6 @@ public class Compra
                 + "id=" + getId()
                 + ", dataCompra=" + dataCompra
                 + ", valorTotal=" + valorTotal
-                + ", formaPagamento='" + formaPagamento + '\''
                 + ", fornecedor='" + fornecedor + '\''
                 + ", usuario='" + usuario + '\''
                 + '}';

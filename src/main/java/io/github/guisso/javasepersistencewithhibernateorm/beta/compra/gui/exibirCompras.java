@@ -68,6 +68,17 @@ public class exibirCompras extends javax.swing.JFrame {
         this.compraSelecionado = null;
     }
 
+    private void exibirAvisoTemporario(String mensagem, JLabel labelDeAviso) {
+        labelDeAviso.setText(mensagem);
+
+        Timer timer = new Timer(3000, e -> {
+            labelDeAviso.setText("");
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
