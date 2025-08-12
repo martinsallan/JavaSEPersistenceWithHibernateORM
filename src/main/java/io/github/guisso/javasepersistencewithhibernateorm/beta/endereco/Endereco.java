@@ -38,7 +38,7 @@ public class Endereco
     @Column(nullable = false, length = 120)
     private String rua;
     
-    @Column(nullable = false, length = 120)
+    @Column(nullable = false, length = 6)
     private String numero;
     
     @Column(nullable = false, length = 120)
@@ -49,7 +49,7 @@ public class Endereco
     @Column(nullable = false, length = 120)
     
     private String cep;
-    @Column(nullable = false)
+    @Column(nullable = false, length = 8)
     
     private Boolean excluido = false;
     
@@ -59,6 +59,9 @@ public class Endereco
     }
 
     public void setRua(String rua) {
+        if(rua == null || rua.isBlank() || rua.length() > 120){
+            throw new IllegalArgumentException("O nome da rua tem que ser válido e ter até 120 caracteres");
+        } 
         this.rua = rua;
     }
 
@@ -66,7 +69,10 @@ public class Endereco
         return numero;
     }
 
-    public void setNumero(String numero) {
+    public void setNumero(String numero) { 
+        if(numero == null || numero.isBlank() || numero.length() > 6){
+            throw new IllegalArgumentException("O numero tem que ser válido e ter até 6 digitos");
+        } 
         this.numero = numero;
     }
 
@@ -75,6 +81,9 @@ public class Endereco
     }
 
     public void setBairro(String bairro) {
+        if(bairro == null || bairro.isBlank() || bairro.length() > 120){
+            throw new IllegalArgumentException("O nome do bairro tem que ser válido e ter até 120 caracteres");
+        } 
         this.bairro = bairro;
     }
 
@@ -83,6 +92,9 @@ public class Endereco
     }
 
     public void setCidade(String cidade) {
+        if(cidade == null || cidade.isBlank() || cidade.length() > 120){
+            throw new IllegalArgumentException("O nome da cidade tem que ser válido e ter até 120 caracteres");
+        } 
         this.cidade = cidade;
     }
 
@@ -91,6 +103,9 @@ public class Endereco
     }
 
     public void setCep(String cep) {
+        if(cep == null || cep.isBlank() || cep.length() > 8){
+            throw new IllegalArgumentException("O cep tem que ser válido e ter até 8 digitos");
+        } 
         this.cep = cep;
     }
 
