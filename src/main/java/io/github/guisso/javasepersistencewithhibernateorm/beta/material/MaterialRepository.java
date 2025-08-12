@@ -108,4 +108,19 @@ public class MaterialRepository
     public void hardDelete(Material material) {
         hardDelete(material.getId());
     }
+    
+    public List<Material> findAllActive() {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT m FROM Material m WHERE m.ativo = true", Material.class)
+                    .getResultList();
+        }
+    }
+    
+    public List<Material> findByNome(String nome) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT m FROM Material m WHERE m.nome LIKE :nome AND m.ativo = true", Material.class)
+                    .setParameter("nome", "%" + nome + "%")
+                    .getResultList();
+        }
+    }
 }
