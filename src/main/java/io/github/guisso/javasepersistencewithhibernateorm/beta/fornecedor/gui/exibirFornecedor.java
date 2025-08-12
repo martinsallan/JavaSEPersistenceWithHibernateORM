@@ -314,7 +314,7 @@ public class exibirFornecedor extends javax.swing.JFrame {
                 .addGap(32, 32, 32)
                 .addGroup(Cadastro_pnlLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(Cadastro_pnlLayout.createSequentialGroup()
-                        .addComponent(listagem_tbd)
+                        .addComponent(listagem_tbd, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                         .addContainerGap(48, Short.MAX_VALUE))
                     .addGroup(Cadastro_pnlLayout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -492,9 +492,6 @@ public class exibirFornecedor extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(exibirFornecedor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
