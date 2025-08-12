@@ -68,6 +68,19 @@ public class exibirCompras extends javax.swing.JFrame {
 
         this.compraSelecionado = null;
     }
+    
+    private void preencherFormulario(Compra compra) {
+    if (compra == null) {
+        return;
+    }
+        DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    txtUsuario.setText(compra.getUsuario());
+    txtFornecedor.setText(compra.getFornecedor());
+    txtItens.setText(compra.getItens());
+    txtDataCompra.setText(compra.getDataCompra().format(formatador));
+    txtValorTotal.setText(String.valueOf(compra.getValorTotal()).replace('.', ','));
+    txtNotaFiscal.setText(compra.getNumeroNotaFiscal());
+}
 
     private void exibirAvisoTemporario(String mensagem, JLabel labelDeAviso) {
         labelDeAviso.setText(mensagem);
@@ -219,6 +232,11 @@ public class exibirCompras extends javax.swing.JFrame {
         bntDeletar.setText("Deletar");
 
         bntAlterar.setText("Alterar");
+        bntAlterar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntAlterarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -380,7 +398,7 @@ public class exibirCompras extends javax.swing.JFrame {
                 exibirAvisoTemporario("A Nota Fiscal não pode ter mais de 44 caracteres.", lbFormulario);
                 return;
             }
-            
+
             Compra novaCompra = new Compra();
             novaCompra.setUsuario(usuario);
             novaCompra.setFornecedor(fornecedor);
@@ -402,6 +420,19 @@ public class exibirCompras extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_bntSalvarActionPerformed
+
+    private void bntAlterarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntAlterarActionPerformed
+        int selectedRow = tblAtivos.getSelectedRow();
+
+        if (selectedRow != -1) {
+            int modelRow = tblAtivos.convertRowIndexToModel(selectedRow);
+            compraSelecionado = ativosTableModel.getCompraEm(modelRow);
+
+            preencherFormulario(compraSelecionado);
+        } else {
+            exibirAvisoTemporario("Por favor, selecione uma compra na tabela para alterar.", lbAviso);
+        }
+    }//GEN-LAST:event_bntAlterarActionPerformed
 
     /**
      * @param args the command line arguments
