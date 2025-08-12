@@ -26,9 +26,6 @@ public class Compra
     @Column(length = 520)
     private String itens;
 
-    @Column(length = 50)
-    private String formaPagamento;
-
     @Column(nullable = false, length = 100)
     private String fornecedor;
 
@@ -73,14 +70,6 @@ public class Compra
 
     public void setValorTotal(Double valorTotal) {
         this.valorTotal = valorTotal;
-    }
-
-    public String getFormaPagamento() {
-        return formaPagamento;
-    }
-
-    public void setFormaPagamento(String formaPagamento) {
-        this.formaPagamento = formaPagamento;
     }
 
     public String getFornecedor() {
@@ -141,7 +130,6 @@ public class Compra
                 + "id=" + getId()
                 + ", dataCompra=" + dataCompra
                 + ", valorTotal=" + valorTotal
-                + ", formaPagamento='" + formaPagamento + '\''
                 + ", fornecedor='" + fornecedor + '\''
                 + ", usuario='" + usuario + '\''
                 + '}';

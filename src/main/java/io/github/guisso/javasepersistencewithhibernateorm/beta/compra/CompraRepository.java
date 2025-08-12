@@ -4,6 +4,7 @@ import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Reposi
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import java.util.List;
+import java.util.Optional;
 
 public class CompraRepository
         extends Repository<Compra> {
@@ -68,5 +69,19 @@ public class CompraRepository
     }
     public void hardDelete(Long id) {
         super.delete(id);
+    }
+    
+    
+    public Optional<Compra> findByNotaFiscal(String numeroNotaFiscal) {
+        if (numeroNotaFiscal == null || numeroNotaFiscal.trim().isEmpty()) {
+            return Optional.empty();
+        }
+      
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT c FROM Compra c WHERE c.numeroNotaFiscal = :numero", Compra.class)
+                     .setParameter("numero", numeroNotaFiscal)
+                     .getResultStream()
+                     .findFirst();
+        }
     }
 }
