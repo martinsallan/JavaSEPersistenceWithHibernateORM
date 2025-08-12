@@ -16,10 +16,59 @@
  */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.endereco.gui;
 
+import io.github.guisso.javasepersistencewithhibernateorm.beta.endereco.Endereco;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
+
 /**
  *
  * @author marti
  */
-public class EnderecoTableModel {
+public class EnderecoTableModel extends AbstractTableModel{
+
+    private List<Endereco> enderecos;
+    private final String[] colunas = {"ID","Rua","Numero","Bairro", "Cidade", "CEP"};
     
+    public EnderecoTableModel(){
+        this.enderecos = new ArrayList<>();
+    }
+
+    public Endereco getEnderecoEm(int rowIndex) {
+        return enderecos.get(rowIndex);
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+        this.fireTableDataChanged();
+    }
+    
+    @Override
+    public int getRowCount() {
+        return enderecos.size();
+    }
+
+    @Override
+    public int getColumnCount() {
+        return colunas.length;
+    }
+
+    @Override
+    public String getColumnName(int column){
+        return colunas[column];
+    }
+    
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Endereco endereco = enderecos.get(rowIndex);
+        return switch (columnIndex) {
+            case 0 -> endereco.getId();
+            case 1 -> endereco.getRua();
+            case 2 -> endereco.getNumero();
+            case 3 -> endereco.getBairro();
+            case 4 -> endereco.getCidade();
+            case 5 -> endereco.getCep();
+            default -> null;
+        };
+    }
 }
