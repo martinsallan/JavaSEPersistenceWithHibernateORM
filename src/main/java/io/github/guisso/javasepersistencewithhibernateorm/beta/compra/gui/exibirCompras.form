@@ -279,6 +279,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Deletar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntDeletarActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bntAlterar">
                   <Properties>
@@ -355,11 +358,17 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Deletar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntDeletarBancoActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="bntRestaurar">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Restaurar"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bntRestaurarActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

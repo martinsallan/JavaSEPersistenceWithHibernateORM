@@ -231,6 +231,11 @@ public class exibirCompras extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblAtivos);
 
         bntDeletar.setText("Deletar");
+        bntDeletar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntDeletarActionPerformed(evt);
+            }
+        });
 
         bntAlterar.setText("Alterar");
         bntAlterar.addActionListener(new java.awt.event.ActionListener() {
@@ -282,8 +287,18 @@ public class exibirCompras extends javax.swing.JFrame {
         jScrollPane2.setViewportView(tblLixeira);
 
         bntDeletarBanco.setText("Deletar");
+        bntDeletarBanco.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntDeletarBancoActionPerformed(evt);
+            }
+        });
 
         bntRestaurar.setText("Restaurar");
+        bntRestaurar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bntRestaurarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -444,6 +459,48 @@ public class exibirCompras extends javax.swing.JFrame {
             exibirAvisoTemporario("Por favor, selecione uma compra na tabela para alterar.", lbAviso);
         }
     }//GEN-LAST:event_bntAlterarActionPerformed
+
+    private void bntDeletarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntDeletarActionPerformed
+        int selectedRow = tblAtivos.getSelectedRow();
+
+        if (selectedRow == -1) {
+            exibirAvisoTemporario("Por favor, selecione uma compra para mover para a lixeira.", lbAviso);
+            return;
+        }
+
+        int response = JOptionPane.showConfirmDialog(
+                this,
+                "Tem certeza que deseja mover esta compra para a lixeira?",
+                "Confirmar Exclusão",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (response == JOptionPane.YES_OPTION) {
+            try {
+                int modelRow = tblAtivos.convertRowIndexToModel(selectedRow);
+                Compra compraParaDeletar = ativosTableModel.getCompraEm(modelRow);
+
+                compraRepository.softDelete(compraParaDeletar.getId());
+
+                JOptionPane.showMessageDialog(this, "Compra movida para a lixeira!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+                carregarTabelas();
+                limparFormulario();
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Ocorreu um erro ao excluir a compra: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_bntDeletarActionPerformed
+
+    private void bntRestaurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntRestaurarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bntRestaurarActionPerformed
+
+    private void bntDeletarBancoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntDeletarBancoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bntDeletarBancoActionPerformed
 
     /**
      * @param args the command line arguments
