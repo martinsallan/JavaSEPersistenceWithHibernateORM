@@ -25,6 +25,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.JLabel;
+import java.util.Optional;
 
 /**
  *
@@ -435,9 +436,14 @@ public class exibirCompras extends javax.swing.JFrame {
                 return;
             }
 
-            if (notaFiscal.length() > 44) {
-                exibirAvisoTemporario("A Nota Fiscal não pode ter mais de 44 caracteres.", lbFormulario);
-                return;
+            if (!notaFiscal.trim().isEmpty()) {
+                Optional<Compra> compraExistente = compraRepository.findByNotaFiscal(notaFiscal);
+
+                if (compraExistente.isPresent() &&
+                   (compraSelecionado == null || !compraExistente.get().getId().equals(compraSelecionado.getId()))) {
+                    exibirAvisoTemporario("Já existe uma compra com este número de Nota Fiscal.", lbFormulario);
+                    return;
+                }
             }
 
             Compra compra;
