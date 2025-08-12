@@ -1,25 +1,38 @@
-/*
- * Copyright (C) 2025 user
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
 package io.github.guisso.javasepersistencewithhibernateorm.beta.categoria;
+
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.DataSourceFactory;
+import io.github.guisso.javasepersistencewithhibernateorm.beta.repository.Repository;
+import jakarta.persistence.EntityManager;
+import java.util.List;
 
 /**
  *
- * @author user
+ * @author stefo
  */
-public class CategoriaRepository {
-    
+
+public class CategoriaRepository
+        extends Repository<Categoria> {
+
+    @Override
+    public String getJpqlFindAll() {
+        return "SELECT c FROM Categoria c";
+    }
+
+    @Override
+    public String getJpqlFindById() {
+        return "SELECT c FROM Categoria c WHERE c.id = :id";
+    }
+
+    @Override
+    public String getJpqlDeleteById() {
+        return "DELETE FROM Categoria c WHERE c.id = :id";
+    }
+
+    public List<Categoria> findByNome(String nome) {
+        try (EntityManager em = DataSourceFactory.getEntityManager()) {
+            return em.createQuery("SELECT c FROM Categoria c WHERE c.nome LIKE :nome", Categoria.class)
+                    .setParameter("nome", "%" + nome + "%")
+                    .getResultList();
+        }
+    }
 }
