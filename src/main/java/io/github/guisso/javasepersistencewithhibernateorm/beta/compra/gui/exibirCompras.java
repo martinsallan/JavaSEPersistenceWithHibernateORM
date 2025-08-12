@@ -448,6 +448,11 @@ public class exibirCompras extends javax.swing.JFrame {
                 return;
             }
 
+            if (!notaFiscal.trim().isEmpty() && !notaFiscal.matches("\\d+")) {
+                exibirAvisoTemporario("A Nota Fiscal deve conter apenas números.", lbFormulario);
+                return;
+            }
+
             if (!notaFiscal.trim().isEmpty()) {
                 Optional<Compra> compraExistente = compraRepository.findByNotaFiscal(notaFiscal);
 
