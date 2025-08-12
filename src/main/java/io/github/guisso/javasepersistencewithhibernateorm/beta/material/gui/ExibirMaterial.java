@@ -66,7 +66,7 @@ public class ExibirMaterial extends javax.swing.JFrame {
         txt_Quantidade.setText("");
         txt_Unidade.setText("");
         txt_NivelMinimo.setText("");
-        chk_Ativo.setSelected(false);
+        chk_Ativo.setSelected(true);
         jTable1.clearSelection();
     }
     

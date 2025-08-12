@@ -49,9 +49,6 @@ public class Material
     @Column(nullable = false)
     private double nivelMinimo;
     
-    @Column(nullable = false)
-    private Boolean excluido = false;
-    
     private Boolean ativo = true;
     
     //<editor-fold defaultstate="collapsed" desc="GettersNSetters">
@@ -106,13 +103,6 @@ public class Material
         this.nivelMinimo = nivelMinimo;
     }
     
-    public Boolean getExcluido() {
-        return excluido;
-    }
-    public void setExcluido(Boolean excluido) {
-        this.excluido = excluido;
-    }
-    
     public Boolean getAtivo() {
         return ativo;
     }
@@ -135,7 +125,6 @@ public class Material
         hash = 61 * hash + Double.hashCode(this.quantidadeEmEstoque);
         hash = 61 * hash + Objects.hashCode(this.unidade);
         hash = 61 * hash + Double.hashCode(this.nivelMinimo);
-        hash = 61 * hash + Objects.hashCode(this.excluido);
         hash = 61 * hash + Objects.hashCode(this.ativo);
         return hash;
     }
@@ -155,7 +144,6 @@ public class Material
                 + ", quantidadeEmEstoque=" + quantidadeEmEstoque 
                 + ", unidade=" + unidade 
                 + ", nivelMinimo=" + nivelMinimo 
-                + ", " + (excluido ? "Excluido " : "Valido ") 
                 + ", " + (ativo != null && ativo ? "Ativo " : "Inativo ") 
                 + '}';
     }
