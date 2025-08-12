@@ -24,6 +24,7 @@ import java.time.format.DateTimeParseException;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.JLabel;
 
 /**
  *
@@ -345,9 +346,7 @@ public class exibirCompras extends javax.swing.JFrame {
 
     private void bntSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntSalvarActionPerformed
         try {
-            Timer timer = new Timer(3000, e -> {
-                lbAviso.setText("");
-            });
+            lbFormulario.setText("");
 
             String usuario = txtUsuario.getText();
             String fornecedor = txtFornecedor.getText();
@@ -357,12 +356,7 @@ public class exibirCompras extends javax.swing.JFrame {
             String notaFiscal = txtNotaFiscal.getText();
 
             if (usuario.trim().isEmpty() || fornecedor.trim().isEmpty() || dataTexto.trim().isEmpty() || valorTexto.trim().isEmpty()) {
-                lbFormulario.setText("Usuário, Fornecedor, Data e Valor são obrigatórios.");
-
-                timer.setRepeats(false);
-
-                timer.start();
-
+                exibirAvisoTemporario("Usuário, Fornecedor, Data e Valor são obrigatórios.", lbFormulario);
                 return;
             }
 
@@ -370,7 +364,7 @@ public class exibirCompras extends javax.swing.JFrame {
             try {
                 dataCompra = LocalDate.parse(dataTexto, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
             } catch (DateTimeParseException e) {
-                JOptionPane.showMessageDialog(this, "Formato de data inválido!\nPor favor, use o formato dd/mm/aaaa.", "Erro de Formato", JOptionPane.ERROR_MESSAGE);
+                exibirAvisoTemporario("Formato de data inválido! Use dd/mm/aaaa.", lbFormulario);
                 return;
             }
 
@@ -378,21 +372,15 @@ public class exibirCompras extends javax.swing.JFrame {
             try {
                 valorTotal = Double.valueOf(valorTexto.replace(",", "."));
             } catch (NumberFormatException e) {
-                lbFormulario.setText("Formato de valor inválido!\nUse apenas números (ex: 123.45).");
-
-                timer.setRepeats(false);
-
-                timer.start();
-
+                exibirAvisoTemporario("Formato de valor inválido! Use apenas números.", lbFormulario);
                 return;
-
             }
 
             if (notaFiscal.length() > 44) {
-                JOptionPane.showMessageDialog(this, "O número da Nota Fiscal não pode ter mais de 44 caracteres.", "Campo Inválido", JOptionPane.WARNING_MESSAGE);
+                exibirAvisoTemporario("A Nota Fiscal não pode ter mais de 44 caracteres.", lbFormulario);
                 return;
             }
-
+            
             Compra novaCompra = new Compra();
             novaCompra.setUsuario(usuario);
             novaCompra.setFornecedor(fornecedor);
