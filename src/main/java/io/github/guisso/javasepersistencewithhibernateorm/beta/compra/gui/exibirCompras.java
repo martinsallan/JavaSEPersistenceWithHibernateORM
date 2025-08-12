@@ -68,19 +68,20 @@ public class exibirCompras extends javax.swing.JFrame {
 
         this.compraSelecionado = null;
     }
-    
+
     private void preencherFormulario(Compra compra) {
-    if (compra == null) {
-        return;
-    }
+        if (compra == null) {
+            return;
+        }
+
         DateTimeFormatter formatador = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-    txtUsuario.setText(compra.getUsuario());
-    txtFornecedor.setText(compra.getFornecedor());
-    txtItens.setText(compra.getItens());
-    txtDataCompra.setText(compra.getDataCompra().format(formatador));
-    txtValorTotal.setText(String.valueOf(compra.getValorTotal()).replace('.', ','));
-    txtNotaFiscal.setText(compra.getNumeroNotaFiscal());
-}
+        txtUsuario.setText(compra.getUsuario());
+        txtFornecedor.setText(compra.getFornecedor());
+        txtItens.setText(compra.getItens());
+        txtDataCompra.setText(compra.getDataCompra().format(formatador));
+        txtValorTotal.setText(String.valueOf(compra.getValorTotal()).replace('.', ','));
+        txtNotaFiscal.setText(compra.getNumeroNotaFiscal());
+    }
 
     private void exibirAvisoTemporario(String mensagem, JLabel labelDeAviso) {
         labelDeAviso.setText(mensagem);
@@ -399,18 +400,28 @@ public class exibirCompras extends javax.swing.JFrame {
                 return;
             }
 
-            Compra novaCompra = new Compra();
-            novaCompra.setUsuario(usuario);
-            novaCompra.setFornecedor(fornecedor);
-            novaCompra.setItens(itens);
-            novaCompra.setDataCompra(dataCompra);
-            novaCompra.setValorTotal(valorTotal);
-            novaCompra.setNumeroNotaFiscal(notaFiscal);
-            novaCompra.setAtivo(true);
+            Compra compra;
+            String mensagemSucesso;
 
-            compraRepository.saveOrUpdate(novaCompra);
+            if (compraSelecionado != null && compraSelecionado.getId() != null) {
+                compra = compraSelecionado;
+                mensagemSucesso = "Compra alterada com sucesso!";
+            } else {
+                compra = new Compra();
+                compra.setAtivo(true);
+                mensagemSucesso = "Compra incluída com sucesso!";
+            }
 
-            JOptionPane.showMessageDialog(this, "Compra salva com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            compra.setUsuario(usuario);
+            compra.setFornecedor(fornecedor);
+            compra.setItens(itens);
+            compra.setDataCompra(dataCompra);
+            compra.setValorTotal(valorTotal);
+            compra.setNumeroNotaFiscal(notaFiscal);
+
+            compraRepository.saveOrUpdate(compra);
+
+            JOptionPane.showMessageDialog(this, mensagemSucesso, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
 
             carregarTabelas();
             limparFormulario();
